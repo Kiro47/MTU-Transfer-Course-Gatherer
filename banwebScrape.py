@@ -16,37 +16,35 @@ class Class_Mapping(object):
     and MTU's counts for them.
     """
 
+    transfering_subject = ""
+    transfering_number = ""
+    transfering_credits = ""
+    MTU_class_name = ""
+    MTU_subject = ""
+    MTU_number = ""
+    MTU_credits = ""
 
-transfering_subject = ""
-transfering_number = ""
-transfering_credits = ""
-MTU_class_name = ""
-MTU_subject = ""
-MTU_number = ""
-MTU_credits = ""
+    def __init__(self, transfering_subject, transfering_number,
+                 transfering_credits, MTU_class_name, MTU_subject,
+                 MTU_number, MTU_credits):
+        """
+        """
+        self.transfering_subject = transfering_subject
+        self.transfering_number = transfering_number
+        self.transfering_credits = transfering_credits
+        self.MTU_class_name = MTU_class_name
+        self.MTU_subject = MTU_subject
+        self.MTU_number = MTU_number
+        self.MTU_credits = MTU_credits
 
-
-def __init__(self, transfering_subject, transfering_number,
-             transfering_credits, MTU_class_name, MTU_subject,
-             MTU_number, MTU_credits):
-    """
-    """
-    self.transfering_subject = transfering_subject
-    self.transfering_number = transfering_number
-    self.transfering_credits = transfering_credits
-    self.MTU_class_name = MTU_class_name
-    self.MTU_subject = MTU_subject
-    self.MTU_number = MTU_number
-    self.MTU_credits = MTU_credits
-
-
-def __str__(self):
-    return ("Transfering Subject: {}\nTransfering Course Number: {}\n"
-            "Transfering Credits: {}\nMTU Class Name: {}\nMTU Subject: {}\n"
-            "MTU Course Number: {}\nMTU Credits: {}").format(
-        self.transfering_subject, self.transfering_number,
-        self.transfering_credits, self.MTU_class_name,
-        self.MTU_subject, self.MTU_number, self.MTU_credits)
+    def __str__(self):
+        return ("Transfering Subject: {}\nTransfering Course Number: {}\n"
+                "Transfering Credits: {}\nMTU Class Name: {}"
+                "\nMTU Subject: {}\nMTU Course Number: {}\nMTU Credits: {}"
+                ).format(
+            self.transfering_subject, self.transfering_number,
+            self.transfering_credits, self.MTU_class_name,
+            self.MTU_subject, self.MTU_number, self.MTU_credits)
 
 
 def get_state_mapping():
