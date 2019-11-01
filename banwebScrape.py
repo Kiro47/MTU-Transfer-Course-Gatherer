@@ -3,9 +3,10 @@
 from bs4 import BeautifulSoup
 import requests
 
-URL_State = "https://www.banweb.mtu.edu/owassb/mtu_transfer_detail.P_TRNS_STATE"
-URL_School = "https://www.banweb.mtu.edu/owassb/mtu_transfer_detail.P_TRNS_SCHOOL"
-URL_Transcript = "https://www.banweb.mtu.edu/owassb/mtu_transfer_detail.P_TRNS_FULL"
+URL_Base = "https://www.banweb.mtu.edu/owassb/mtu_transfer_detail."
+URL_State = URL_Base + "P_TRNS_STATE"
+URL_School = URL_Base + "P_TRNS_SCHOOL"
+URL_Transcript = URL_Base + "P_TRNS_FULL"
 
 
 class Class_Mapping(object):
@@ -26,26 +27,27 @@ MTU_credits = ""
 
 
 def __init__(self, transfering_subject, transfering_number,
-    transfering_credits, MTU_class_name, MTU_subject,
-    MTU_number,MTU_credits):
+             transfering_credits, MTU_class_name, MTU_subject,
+             MTU_number, MTU_credits):
     """
     """
     self.transfering_subject = transfering_subject
-    self.transfering_number  = transfering_number
+    self.transfering_number = transfering_number
     self.transfering_credits = transfering_credits
-    self.MTU_class_name      = MTU_class_name
-    self.MTU_subject         = MTU_subject
-    self.MTU_number          = MTU_number
-    self.MTU_credits         = MTU_credits
+    self.MTU_class_name = MTU_class_name
+    self.MTU_subject = MTU_subject
+    self.MTU_number = MTU_number
+    self.MTU_credits = MTU_credits
 
 
 def __str__(self):
     return ("Transfering Subject: {}\nTransfering Course Number: {}\n"
             "Transfering Credits: {}\nMTU Class Name: {}\nMTU Subject: {}\n"
             "MTU Course Number: {}\nMTU Credits: {}").format(
-                    self.transfering_subject, self.transfering_number,
-                    self.transfering_credits, self.MTU_class_name,
-                    self.MTU_subject, self.MTU_number, self.MTU_credits)
+        self.transfering_subject, self.transfering_number,
+        self.transfering_credits, self.MTU_class_name,
+        self.MTU_subject, self.MTU_number, self.MTU_credits)
+
 
 def get_state_mapping():
     req = requests.get(URL_State)
@@ -55,14 +57,15 @@ def get_state_mapping():
     state_dict = dict()
     for item in options:
         state_dict.update({
-            item.get("value") : item.text.replace("\n","")
-            })
+            item.get("value"): item.text.replace("\n", "")
+        })
     return state_dict.items()
-### print out mapping
-#for tup in get_state_mapping():
+# print out mapping
+# for tup in get_state_mapping():
 #    print(tup)
 
 # dump all state pages
+
 
 def get_colleges_from_state(state_code):
     data = {"state_code": state_code}
@@ -73,12 +76,13 @@ def get_colleges_from_state(state_code):
     college_dict = dict()
     for item in options:
         college_dict.update({
-            item.get("value") : item.text.replace("\n","")
-            })
+            item.get("value"): item.text.replace("\n", "")
+        })
     return college_dict.items()
 
+
 def get_courses_from_college(state_code, college_code):
-    data = {"SBGI_CODE" : college_code, "state" : state_code}
+    data = {"SBGI_CODE": college_code, "state": state_code}
     req = requests.post(URL_Transcript, data)
     soup = BeautifulSoup(req.text, 'html5lib')
     # There's no IDs or classes for the tables only CSS padding
@@ -105,7 +109,7 @@ def get_courses_from_college(state_code, college_code):
         MTU_Numb = table_columns[5].find(text=True)
         MTU_Cred = table_columns[6].find(text=True)
         class_mapping = Class_Mapping(Oth_Subj, Oth_Numb, Oth_Cred,
-                MTU_Name, MTU_Subj, MTU_Numb, MTU_Cred)
+                                      MTU_Name, MTU_Subj, MTU_Numb, MTU_Cred)
     # This is only returning one mapping atm, should return a list of mapping
     # objects, but not enough time today
     return class_mapping
@@ -114,7 +118,6 @@ def get_courses_from_college(state_code, college_code):
 #    print(table_rows.prettify)
 
 
-
 data = {"state_code": "MI"}
-req = requests.post("https://www.banweb.mtu.edu/owassb/mtu_transfer_detail.P_TRNS_SCHOOL", data)
+req = requests.post(URL_School, data)
 print(get_courses_from_college("MI", "001001"))
