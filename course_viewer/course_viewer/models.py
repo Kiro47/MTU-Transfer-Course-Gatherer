@@ -49,6 +49,16 @@ class Course(models.Model):
                 related_name='mtu_course_crn',
                 on_delete=models.CASCADE,
                 help_text='The MTU course associated with the transfer course')
+    course_college_code = models.ForeignKey(
+                            'College',
+                            related_name='course_college_code',
+                            on_delete=models.CASCADE,
+                            help_text='The college that the course is at')
+    course_state_code = models.ForeignKey(
+                            'State',
+                            related_name='course_state_code',
+                            on_delete=models.CASCADE,
+                            help_text='The state the course is located in')
 
 
 class MTUCourse(models.Model):
