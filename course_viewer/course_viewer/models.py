@@ -31,7 +31,7 @@ class College(models.Model):
     '''
     college_code = models.CharField(
                     max_length=15,
-                    unique=True,
+                    primary_key=True,
                     help_text='The code of the transfer college')
     college_name = models.CharField(
                         max_length=50,
