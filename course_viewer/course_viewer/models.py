@@ -18,6 +18,12 @@ class State(models.Model):
     def __str__(self):
         return self.state_name
 
+    class Meta:
+        ordering = ['state_code']
+        verbose_name = 'state'
+        verbose_name_plural = 'states'
+        db_table = 'states'
+
 
 class College(models.Model):
     '''
@@ -33,6 +39,12 @@ class College(models.Model):
 
     def __str__(self):
         return self.college_name
+
+    class Meta:
+        ordering = ['college_code']
+        verbose_name = 'college'
+        verbose_name_plural = 'colleges'
+        db_table = 'colleges'
 
 
 class Course(models.Model):
@@ -69,6 +81,12 @@ class Course(models.Model):
     def __str__(self):
         return self.course_name
 
+    class Meta:
+        ordering = ['course_name']
+        verbose_name = 'course'
+        verbose_name_plural = 'courses'
+        db_table = 'courses'
+
 
 class MTUCourse(models.Model):
     '''
@@ -85,3 +103,9 @@ class MTUCourse(models.Model):
 
     def __str__(self):
         return self.mtu_course_id
+
+    class Meta:
+        ordering = ['mtu_course_id']
+        verbose_name = 'MTUCourse'
+        verbose_name_plural = 'MTUCourses'
+        db_table = 'mtu_courses'
