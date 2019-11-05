@@ -15,8 +15,8 @@ class CollegeSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    MTU_course_crn = serializers.SlugRelatedField(
-        slug_field='mtu_course_name',
+    mtu_course_id = serializers.SlugRelatedField(
+        slug_field='mtu_course_id',
         read_only=True
     )
 

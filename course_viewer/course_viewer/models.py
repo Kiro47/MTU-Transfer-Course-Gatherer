@@ -15,6 +15,9 @@ class State(models.Model):
                     unique=True,
                     help_text='The long name of the transfer college state')
 
+    def __str__(self):
+        return self.state_name
+
 
 class College(models.Model):
     '''
@@ -27,6 +30,9 @@ class College(models.Model):
     college_name = models.CharField(
                         max_length=50,
                         help_text='The name of the transfer college')
+
+    def __str__(self):
+        return self.college_name
 
 
 class Course(models.Model):
@@ -44,9 +50,9 @@ class Course(models.Model):
     course_number = models.CharField(
                         max_length=15,
                         help_text='The course number of the transfer course')
-    mtu_course_crn = models.ForeignKey(
+    course_mtu_course_id = models.ForeignKey(
                 'MTUCourse',
-                related_name='mtu_course_crn',
+                related_name='course_mtu_course_id',
                 on_delete=models.CASCADE,
                 help_text='The MTU course associated with the transfer course')
     course_college_code = models.ForeignKey(
@@ -60,16 +66,22 @@ class Course(models.Model):
                             on_delete=models.CASCADE,
                             help_text='The state the course is located in')
 
+    def __str__(self):
+        return self.course_name
+
 
 class MTUCourse(models.Model):
     '''
     The MTU Course
     '''
-    mtu_course_name = models.CharField(
+    mtu_course_id = models.CharField(
                             max_length=50,
-                            help_text='The name of the MTU course')
+                            help_text='The id of the MTU course')
     mtu_subject = models.CharField(
                         max_length=50,
                         help_text='The subject of the MTU course')
     mtu_credits = models.IntegerField(
                         help_text='The amount of credits the MTU course is')
+
+    def __str__(self):
+        return self.mtu_course_id
