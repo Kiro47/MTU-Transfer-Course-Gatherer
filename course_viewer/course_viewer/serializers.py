@@ -6,6 +6,7 @@ from course_viewer.models import (
 )
 from rest_framework import serializers
 
+
 class CollegeSerializer(serializers.ModelSerializer):
 
     class Meta:

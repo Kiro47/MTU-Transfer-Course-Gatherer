@@ -14,9 +14,11 @@ from course_viewer.serializers import (
 
 from rest_framework import viewsets
 
+
 class StateViewSet(viewsets.ModelViewSet):
     serializer_class = StateSerializer
     queryset = State.objects.all()
+
 
 class CollegeViewSet(viewsets.ModelViewSet):
     serializer_class = CollegeSerializer
@@ -31,4 +33,3 @@ class CourseViewSet(viewsets.ModelViewSet):
 class MTUCourseViewSet(viewsets.ModelViewSet):
     serializer_class = MTUCourseSerializer
     queryset = MTUCourse.objects.all()
-
