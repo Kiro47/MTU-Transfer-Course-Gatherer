@@ -39,11 +39,16 @@ class Course(models.Model):
     course_id = models.CharField(
                         max_length=15,
                         help_text='The id of the transfer course')
-    course_credit = models.IntegerField()
-    course_number = models.IntegerField()
-    MTU_course_crn = models.ForeignKey('MTUCourse',
-                                       related_name='mtu_course_crn',
-                                       on_delete=models.CASCADE)
+    course_credit = models.IntegerField(
+                    help_text='The number of credits the transfer course is')
+    course_number = models.CharField(
+                        max_length=15,
+                        help_text='The course number of the transfer course')
+    mtu_course_crn = models.ForeignKey(
+                'MTUCourse',
+                related_name='mtu_course_crn',
+                on_delete=models.CASCADE,
+                help_text='The MTU course associated with the transfer course')
 
 
 class MTUCourse(models.Model):
@@ -56,4 +61,5 @@ class MTUCourse(models.Model):
     mtu_subject = models.CharField(
                         max_length=50,
                         help_text='The subject of the MTU course')
-    mtu_credits = models.IntegerField()
+    mtu_credits = models.IntegerField(
+                        help_text='The amount of credits the MTU course is')
