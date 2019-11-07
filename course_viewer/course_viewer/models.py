@@ -51,41 +51,38 @@ class Course(models.Model):
     '''
     The Transfer Course
     '''
-    course_name = models.CharField(
-                        max_length=50,
-                        help_text='The name of the transfer course')
-    course_id = models.CharField(
+    transfer_course_id = models.CharField(
                         max_length=15,
                         help_text='The id of the transfer course')
-    course_credit = models.IntegerField(
+    transfer_course_credit = models.IntegerField(
                     help_text='The number of credits the transfer course is')
-    course_number = models.CharField(
+    transfer_course_number = models.CharField(
                         max_length=15,
                         help_text='The course number of the transfer course')
-    course_mtu_course_id = models.ForeignKey(
+    mtu_equiv_id = models.ForeignKey(
                 'MTUCourse',
-                related_name='course_mtu_course_id',
+                related_name='mtu_equiv_id',
                 on_delete=models.CASCADE,
                 help_text='The MTU course associated with the transfer course')
-    course_college_code = models.ForeignKey(
+    transfer_course_college_code = models.ForeignKey(
                             'College',
-                            related_name='course_college_code',
+                            related_name='transfer_course_college_code',
                             on_delete=models.CASCADE,
                             help_text='The college that the course is at')
-    course_state_code = models.ForeignKey(
+    transfer_course_state_code = models.ForeignKey(
                             'State',
-                            related_name='course_state_code',
+                            related_name='transfer_course_state_code',
                             on_delete=models.CASCADE,
                             help_text='The state the course is located in')
 
     def __str__(self):
-        return self.course_name
+        return self.transfer_course_id
 
     class Meta:
-        ordering = ['course_name']
-        verbose_name = 'course'
-        verbose_name_plural = 'courses'
-        db_table = 'courses'
+        ordering = ['transfer_course_id']
+        verbose_name = 'transfer_course'
+        verbose_name_plural = 'transfer_courses'
+        db_table = 'transfer_courses'
 
 
 class MTUCourse(models.Model):
@@ -95,6 +92,9 @@ class MTUCourse(models.Model):
     mtu_course_id = models.CharField(
                             max_length=50,
                             help_text='The id of the MTU course')
+    mtu_course_name = models.CharField(
+                            max_length=50,
+                            help_text='The Name of the MTU course')
     mtu_subject = models.CharField(
                         max_length=50,
                         help_text='The subject of the MTU course')
