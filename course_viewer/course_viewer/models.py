@@ -54,7 +54,8 @@ class Course(models.Model):
     transfer_course_id = models.CharField(
                         max_length=15,
                         help_text='The id of the transfer course')
-    transfer_course_credit = models.IntegerField(
+    transfer_course_credit = models.FloatField(
+                    blank=True,
                     help_text='The number of credits the transfer course is')
     transfer_course_number = models.CharField(
                         max_length=15,
@@ -98,7 +99,8 @@ class MTUCourse(models.Model):
     mtu_subject = models.CharField(
                         max_length=50,
                         help_text='The subject of the MTU course')
-    mtu_credits = models.IntegerField(
+    mtu_credits = models.FloatField(
+                        blank=True,
                         help_text='The amount of credits the MTU course is')
 
     def __str__(self):
