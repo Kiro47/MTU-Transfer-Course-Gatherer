@@ -1,0 +1,64 @@
+{
+    "plugins": [
+        "react"
+    ],
+ "settings": {
+    "react": {
+      "createClass": "createReactClass", // Regex for Component Factory to use,
+                                         // default to "createReactClass"
+      "pragma": "React",  // Pragma to use, default to "React"
+      "version": "detect", // React version. "detect" automatically picks the version you have installed.
+                           // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
+                           // default to latest and warns if missing
+                           // It will default to "detect" in the future
+      "flowVersion": "0.53" // Flow version
+    }
+  },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "es6":     true,
+        "browser": true,
+        "node":    true,
+        "mocha":   true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "rules": {
+		// first argument: 0 - silent, 1 - warning, 2 - error
+        "strict":             [ 2, "safe" ],
+        "no-debugger":        2,
+        "brace-style": [
+            2,
+            "1tbs",
+            { "allowSingleLine": true }
+        ],
+        "spaced-comment":     [2, "always" ],
+        "vars-on-top":        2,
+        "no-undef":           2,
+        "no-undefined":       2,
+        "comma-dangle":       [ 2, "never" ],
+        "quotes":             [ 2, "single" ],
+        "semi":               [ 2, "always" ],
+        "guard-for-in":       2,
+        "no-eval":            2,
+        "no-with":            2,
+        "valid-typeof":       2,
+        "no-unused-vars":     2,
+        "no-continue":        1,
+        "no-extra-semi":      1,
+        "no-unreachable":     1,
+        "no-unused-expressions": 1,
+        "no-magic-numbers":   1,
+        "max-len":            [1, 120, 4],
+        "react/prefer-es6-class": 1,
+    }
+}
+
