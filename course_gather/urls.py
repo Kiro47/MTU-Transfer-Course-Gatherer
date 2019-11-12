@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework.routers import DefaultRouter
-from course_viewer.viewsets import (
+from course_gather.viewsets import (
     CollegeViewSet,
     CourseViewSet,
     MTUCourseViewSet,

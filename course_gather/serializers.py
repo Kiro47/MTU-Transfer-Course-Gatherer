@@ -1,4 +1,4 @@
-from course_viewer.models import (
+from course_gather.models import (
     College,
     Course,
     MTUCourse,

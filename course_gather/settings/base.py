@@ -22,7 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = ''
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -39,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'course_viewer'
+    'course_gather'
 ]
 
 MIDDLEWARE = [
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'course_gather.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'course_gather.wsgi.application'
 
 
 # Database
@@ -97,12 +97,12 @@ SimilarityValidator',
 Validator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.\
-CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPassword\
+Validator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.\
-NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPassword\
+Validator',
     },
 ]
 

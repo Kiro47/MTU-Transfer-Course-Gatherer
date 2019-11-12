@@ -1,11 +1,11 @@
-from course_viewer.models import (
+from course_gather.models import (
     College,
     Course,
     MTUCourse,
     State
 )
 
-from course_viewer.serializers import (
+from course_gather.serializers import (
     CollegeSerializer,
     CourseSerializer,
     MTUCourseSerializer,
