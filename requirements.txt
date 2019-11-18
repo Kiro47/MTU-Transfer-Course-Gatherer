@@ -1,2 +1,5 @@
 requests
 BeautifulSoup4
+Django
+djangorestframework
+django-filters
