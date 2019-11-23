@@ -81,7 +81,7 @@ class Class_Object(object):
             self.MTU_number, self.MTU_credits)
 
     def toCSV(self):
-        return "{},{},{},{},{},{},{},{},{},{}\n".format(
+        return '"{}","{}","{}","{}","{}","{}","{}","{}","{}","{}"\n'.format(
                 self.transfering_state_code, self.transfering_state_name,
                 self.transfering_college_code, self.transferring_college_name,
                 self.transfering_subject, self.transfering_number,
