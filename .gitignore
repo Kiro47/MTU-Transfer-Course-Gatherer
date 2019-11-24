@@ -8,3 +8,6 @@ migrations
 
 .env
 db.sqlite3
+
+# NodeJS
+node_modules
