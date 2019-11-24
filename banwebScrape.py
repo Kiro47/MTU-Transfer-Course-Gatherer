@@ -53,6 +53,7 @@ class Class_Object(object):
             transfering_credits, MTU_class_name, MTU_subject,
             MTU_number, MTU_credits):
         """
+        Initializer for the Class_Object containing all data
         """
         self.transfering_state_code = transfering_state_code
         self.transfering_state_name = transfering_state_name
@@ -67,6 +68,9 @@ class Class_Object(object):
         self.MTU_credits = MTU_credits
 
     def __str__(self):
+        """
+        Converts Class_Object into a human readable string
+        """
         return ("Transfering State Code: {}\nTransfering State Name: {}\n"
                 "Transfering College Code: {}\nTransfering College Name: {}\n"
                 "Transfering Subject: {}\nTransfering Course Number: {}\n"
@@ -82,6 +86,9 @@ class Class_Object(object):
             self.MTU_number, self.MTU_credits)
 
     def toCSV(self):
+        """
+        Converts Class_Object to a CSV row entry with values quoted
+        """
         return '"{}","{}","{}","{}","{}","{}","{}","{}","{}","{}"\n'.format(
                 self.transfering_state_code, self.transfering_state_name,
                 self.transfering_college_code, self.transferring_college_name,
@@ -126,6 +133,7 @@ class College_Object(object):
             self, college_code, college_name, college_state_code,
             college_state_name):
         """
+        Initialization of a college Object
         """
         self.college_code = college_code
         self.college_name = college_name
@@ -244,6 +252,14 @@ def get_state_mapping():
 
 
 def get_colleges_from_state(state_code):
+    """
+    Gathers course data from the MTU Banweb database for the specified
+    state and generates a dictionary of Colleges associated with a state
+
+    :state_code: The code of the state to gather colleges from
+
+    :returns: A Dictionary of college IDs  with an associated College Name
+    """
     data = {"state_code": state_code}
     req = requests.post(URL_School, data)
     global total_bytes_transfered
@@ -260,6 +276,14 @@ def get_colleges_from_state(state_code):
 
 
 def get_courses_from_college(college_object_list):
+    """
+    Gathers course data from the MTU Banweb database for the specified
+    Colleges and stored it inside the associated College Objct
+
+    :college_object_list: A list of College Objects to store data into
+
+    :returns: None
+    """
     for college_obj in college_object_list:
         data = {
                 "SBGI_CODE": college_obj.college_code,
@@ -305,6 +329,13 @@ def get_courses_from_college(college_object_list):
 
 
 def get_college_object_list(state_mapping):
+    """
+    Gathers a list of College Objects from MTU's Banweb database
+
+    :state_mapping: A Dictionary of State Codes to State Names
+
+    :returns: A list of College Objects
+    """
     college_obj_list = list()
     for state_code, state_name in state_mapping.items():
         colleges_from_state = get_colleges_from_state(state_code)
