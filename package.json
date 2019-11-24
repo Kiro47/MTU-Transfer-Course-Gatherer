@@ -1,0 +1,27 @@
+{
+  "name": "banwebtransferscraper",
+  "version": "1.0.0",
+  "description": "Scrapes MTU's Banweb DB for transfer courses in a usable format",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ignore-path .gitignore ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kiro47/MTU-Transfer-Course-Gatherer.git"
+  },
+  "keywords": [
+    "MTU"
+  ],
+  "author": "Kiro47",
+  "license": "Undefined",
+  "bugs": {
+    "url": "https://github.com/Kiro47/MTU-Transfer-Course-Gatherer/issues"
+  },
+  "homepage": "https://github.com/Kiro47/MTU-Transfer-Course-Gatherer#readme",
+  "devDependencies": {
+    "eslint-plugin-react": "^7.16.0",
+    "eslint": "^6.7.0"
+  }
+}
