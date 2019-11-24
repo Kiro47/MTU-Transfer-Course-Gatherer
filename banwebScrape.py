@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from bs4 import BeautifulSoup
+import csv
 import requests
 
 URL_Base = "https://www.banweb.mtu.edu/owassb/mtu_transfer_detail."
@@ -52,6 +53,7 @@ class Class_Object(object):
             transfering_credits, MTU_class_name, MTU_subject,
             MTU_number, MTU_credits):
         """
+        Initializer for the Class_Object containing all data
         """
         self.transfering_state_code = transfering_state_code
         self.transfering_state_name = transfering_state_name
@@ -66,28 +68,50 @@ class Class_Object(object):
         self.MTU_credits = MTU_credits
 
     def __str__(self):
+        """
+        Converts Class_Object into a human readable string
+        """
         return ("Transfering State Code: {}\nTransfering State Name: {}\n"
                 "Transfering College Code: {}\nTransfering College Name: {}\n"
                 "Transfering Subject: {}\nTransfering Course Number: {}\n"
-                "Transfering Credits: {}\nTransfering State Name\n"
-                "MTU Class Name: {}\nMTU Subject: {}\n"
-                "MTU Course Number: {}\nMTU Credits: {}"
+                "Transfering Credits: {}\nMTU Class Name: {}\n"
+                "MTU Subject: {}\nMTU Course Number: {}\nMTU Credits: {}"
                 ).format(
             self.transfering_state_code, self.transfering_state_name,
             self.transfering_college_code, self.transferring_college_name,
             self.transfering_subject, self.transfering_number,
-            self.transfering_credits, self.transfering_state_name,
-            self.MTU_class_name, self.MTU_subject,
+            self.transfering_credits, self.MTU_class_name, self.MTU_subject,
             self.MTU_number, self.MTU_credits)
 
     def toCSV(self):
-        return "{},{},{},{},{},{},{},{},{},{}\n".format(
+        """
+        Converts Class_Object to a CSV row entry with values quoted
+        """
+        return '"{}","{}","{}","{}","{}","{}","{}","{}","{}","{}"\n'.format(
                 self.transfering_state_code, self.transfering_state_name,
                 self.transfering_college_code, self.transferring_college_name,
                 self.transfering_subject, self.transfering_number,
                 self.transfering_credits, self.MTU_class_name,
                 self.MTU_subject, self.MTU_number, self.MTU_credits
             )
+
+    def toDict(self):
+        """
+        Converts Class_Object to a dictionary
+        """
+        return {
+                'Transfering State Code': self.transfering_state_code,
+                'Transfering State Name': self.transfering_state_name,
+                "Transfering College Code": self.transfering_college_code,
+                "Transfering College Name": self.transferring_college_name,
+                "Transfering Subject": self.transfering_subject,
+                "Transfering Course Number": self.transfering_number,
+                "Transfering Credits": self.transfering_credits,
+                "MTU Class Name": self.MTU_class_name,
+                "MTU Subject": self.MTU_subject,
+                "MTU Course Number": self.MTU_number,
+                "MTU Credits": self.MTU_credits
+                }
 
 
 class College_Object(object):
@@ -107,6 +131,7 @@ class College_Object(object):
             self, college_code, college_name, college_state_code,
             college_state_name):
         """
+        Initialization of a college Object
         """
         self.college_code = college_code
         self.college_name = college_name
@@ -116,18 +141,100 @@ class College_Object(object):
 
     def __str__(self):
         """
+        Prints a course to a human readable string
         """
         return (
                 "College Code: {}\nCollege Name: {}\n"
-                "State Code: {}\nClass List: [{}]\n"
+                "State Code: {}\nState Name: {}\nClass List: [{}]\n"
                 ).format(
                         self.college_code, self.college_name,
-                        self.state_code, self.college_state_name,
-                        ", ".join(self.class_list)
+                        self.college_state_code, self.college_state_name,
+                        self.class_list
                         )
 
 
+class File_Utils(object):
+
+    """
+    File utilities for writing and reading data from files
+    """
+
+    def __init__(self):
+        """
+        Blank init
+        """
+
+    def write_to_csv(self, class_obj_list, output_file_name):
+        """
+        Writes the class_obj_list to a a value quoted CSV file
+
+        :class_obj_list: Class Object list to get data from
+        :output_file_name: Name of the file to write to
+
+        :returns: None
+        """
+        with open(output_file_name, 'w') as csv_file:
+            field_names = [
+                'Transfering State Code', 'Transfering State Name',
+                "Transfering College Code", "Transfering College Name",
+                "Transfering Subject", "Transfering Course Number",
+                "Transfering Credits", "MTU Class Name", "MTU Subject",
+                "MTU Course Number", "MTU Credits"]
+            writer = csv.DictWriter(csv_file, fieldnames=field_names,
+                                    quoting=csv.QUOTE_ALL)
+
+            writer.writeheader()
+            for course in class_obj_list:
+                writer.writerow(course.toDict())
+
+    def read_from_csv(self, input_file_name):
+        """
+        Reads a CSV file and outputs the contents
+
+        :input_file_name: File to read from
+
+        :returns: None
+        """
+        with open(input_file_name) as csv_file:
+            csv_reader = csv.reader(csv_file)
+            for row in csv_reader:
+                print('"{}"'.format('", "'.join(row)))
+
+    def read_from_csv_to_Class_Obj_List(self, input_file_name):
+        """
+        Reads from a file and returns a list of Class_Object's to rebuild data
+
+        :input_file_name: File to read from
+
+        :returns: A list of ClassObjects
+        """
+        class_obj_list = list()
+        with open(input_file_name) as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            for row in csv_reader:
+                new_class_obj = Class_Object(
+                    row['Transfering State Code'],
+                    row['Transfering State Name'],
+                    row["Transfering College Code"],
+                    row["Transfering College Name"],
+                    row["Transfering Subject"],
+                    row["Transfering Course Number"],
+                    row["Transfering Credits"],
+                    row["MTU Class Name"],
+                    row["MTU Subject"],
+                    row["MTU Course Number"],
+                    row["MTU Credits"]
+                    )
+                class_obj_list.append(new_class_obj)
+        return class_obj_list
+
+
 def get_state_mapping():
+    """
+    Get a list of states from MTU's banweb course transfer database
+
+    :returns: A Dictioary of State Codes with their State Value
+    """
     req = requests.get(URL_State)
     global total_bytes_transfered
     total_bytes_transfered += len(req.content)
@@ -143,6 +250,14 @@ def get_state_mapping():
 
 
 def get_colleges_from_state(state_code):
+    """
+    Gathers course data from the MTU Banweb database for the specified
+    state and generates a dictionary of Colleges associated with a state
+
+    :state_code: The code of the state to gather colleges from
+
+    :returns: A Dictionary of college IDs  with an associated College Name
+    """
     data = {"state_code": state_code}
     req = requests.post(URL_School, data)
     global total_bytes_transfered
@@ -159,6 +274,14 @@ def get_colleges_from_state(state_code):
 
 
 def get_courses_from_college(college_object_list):
+    """
+    Gathers course data from the MTU Banweb database for the specified
+    Colleges and stored it inside the associated College Objct
+
+    :college_object_list: A list of College Objects to store data into
+
+    :returns: None
+    """
     for college_obj in college_object_list:
         data = {
                 "SBGI_CODE": college_obj.college_code,
@@ -204,6 +327,13 @@ def get_courses_from_college(college_object_list):
 
 
 def get_college_object_list(state_mapping):
+    """
+    Gathers a list of College Objects from MTU's Banweb database
+
+    :state_mapping: A Dictionary of State Codes to State Names
+
+    :returns: A list of College Objects
+    """
     college_obj_list = list()
     for state_code, state_name in state_mapping.items():
         colleges_from_state = get_colleges_from_state(state_code)
@@ -217,38 +347,40 @@ def get_college_object_list(state_mapping):
     return college_obj_list
 
 
-def dump_to_csv(college_obj_list, csv_name):
+def college_obj_list_to_class_obj_list(college_obj_list):
     """
+    Converts a compiled College Object list into a more flat and
+    usable overall College Course List
+
+    :college_obj_list: List of College Objects to parse from
+
+    :returns: A List of Course Objects
     """
-    try:
-        csv_file = open(csv_name, "w+")
-        print("Dumping to CSV: {}".format(csv_name))
-        # Write header in
-        csv_file.write(
-            "Transfering State Code,Transfering State Name,"
-            "Transfering College Code,Transfering College Name,"
-            "Transfering Subject,Transfering Course Number,"
-            "Transfering Credits,MTU Class Name,"
-            "MTU Subject,MTU Course Number,MTU Credits\n")
-
-        for college in college_obj_list:
-            for course in college.class_list:
-                csv_file.write(course.toCSV())
-    except ():
-        if csv_file is not None:
-            csv_file.close()
-    finally:
-        csv_file.close()
+    class_obj_list = list()
+    for college_obj in college_obj_list:
+        class_obj_list.extend(college_obj.class_list)
+    return class_obj_list
 
 
-def main():
+def get_course_object_list():
+    """
+    Gathers live data from the MTU Banweb DB for classes
+    and stores it into a list of Course Objects
+
+    :returns: List of Course Objects
+    """
     print("Acquiring state map")
     state_mapping = get_state_mapping()
     print("Mapping colleges to states")
     college_obj_list = get_college_object_list(state_mapping)
     print("Getting course data from colleges")
     get_courses_from_college(college_obj_list)
-    dump_to_csv(college_obj_list, "/tmp/output.csv")
+    return college_obj_list_to_class_obj_list(college_obj_list)
+
+
+def main():
+    files = File_Utils()
+    files.write_to_csv(get_course_object_list(), "/tmp/writer.csv")
     global total_bytes_transfered
     print("Bytes wasted: {}".format(
         total_bytes_transfered))
