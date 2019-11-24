@@ -74,15 +74,13 @@ class Class_Object(object):
         return ("Transfering State Code: {}\nTransfering State Name: {}\n"
                 "Transfering College Code: {}\nTransfering College Name: {}\n"
                 "Transfering Subject: {}\nTransfering Course Number: {}\n"
-                "Transfering Credits: {}\nTransfering State Name\n"
-                "MTU Class Name: {}\nMTU Subject: {}\n"
-                "MTU Course Number: {}\nMTU Credits: {}"
+                "Transfering Credits: {}\nMTU Class Name: {}\n"
+                "MTU Subject: {}\nMTU Course Number: {}\nMTU Credits: {}"
                 ).format(
             self.transfering_state_code, self.transfering_state_name,
             self.transfering_college_code, self.transferring_college_name,
             self.transfering_subject, self.transfering_number,
-            self.transfering_credits, self.transfering_state_name,
-            self.MTU_class_name, self.MTU_subject,
+            self.transfering_credits, self.MTU_class_name, self.MTU_subject,
             self.MTU_number, self.MTU_credits)
 
     def toCSV(self):
