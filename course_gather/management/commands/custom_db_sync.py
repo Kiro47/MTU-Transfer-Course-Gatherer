@@ -10,10 +10,27 @@ import csv
 
 
 class Command(BaseCommand):
+    """
+    Command class for custom db sync
+    """
     def add_arguments(self, parser):
+        """
+        Adds custom arguments to read from CLI. Required by Django.
+
+        :parser: ArgParse parser
+        """
         parser.add_argument('file_path', type=Path)
 
     def handle(self, *args, **options):
+        """
+        Handle function required by Django.
+        This gets the ball rolling per se in that it calls the add_sub_tables
+        function, passing in the data dictionary parsed from the CSV file from
+        banwebScrape.
+
+        :*args: Arguments variable to satisfy Django. Unused
+        :**options: Dictionary of passed in values to arguments
+        """
         file_path = options['file_path']
         desired_lines = list()
         try:
@@ -27,6 +44,15 @@ class Command(BaseCommand):
         self.add_sub_tables(data)
 
     def create_dicts(self, desired_lines):
+        """
+        Creates the data dictionary of key value pairs obtained from the
+        CSV file
+
+        :desired_lines: List of lines from the CSV file excluding the header
+
+        :returns: List of dictionary entries that represent each row from the
+                  CSV file
+        """
         keys = [
             'transfering_state_code',
             'transfering_state_name',
@@ -46,12 +72,24 @@ class Command(BaseCommand):
         return dict_list
 
     def add_sub_tables(self, data):
+        """
+        Calls the respective function for every table in the database.
+        Every table uses sets to ensure uniqueness, but still allows very
+        slight differences.
+        :data: The list of dictionaries to then pass into the sub functions.
+        """
         self.add_transfer_states(data)
         self.add_transfer_colleges(data)
         self.add_mtu_courses(data)
         self.add_courses(data)
 
     def add_courses(self, data):
+        """
+        Adds the entries for the Courses table via Django models.
+        THIS MUST BE CALLED LAST.
+
+        :data: List of dictionaries that contain the CSV data
+        """
         for entry in data:
             transfer_state_code = entry['transfering_state_code']
             transfer_college_code = entry['transfering_college_code']
@@ -83,6 +121,11 @@ class Command(BaseCommand):
                     transfer_course_credit=transfering_credits)
 
     def add_mtu_courses(self, data):
+        """
+        Adds the MTUCourse table entries via Django models.
+
+        :data: List of dictionaries that contain the CSV data
+        """
         mtu_course_set = set()
         for entry in data:
             class_number = entry['MTU_number']
@@ -105,6 +148,11 @@ class Command(BaseCommand):
                                             mtu_credits=x[3])
 
     def add_transfer_colleges(self, data):
+        """
+        Adds the College table entries via Django models.
+
+        :data: List of dictionaries that contain the CSV data
+        """
         college_set = set()
         for entry in data:
             college_code = entry['transfering_college_code']
@@ -115,6 +163,11 @@ class Command(BaseCommand):
                                              college_name=x[1])
 
     def add_transfer_states(self, data):
+        """
+        Adds the State table entries via Django models.
+
+        :data: List of dictionaries that contain the CSV data
+        """
         state_set = set()
         for entry in data:
             state_code = entry['transfering_state_code']
