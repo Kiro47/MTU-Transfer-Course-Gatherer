@@ -60,9 +60,9 @@ class Course(models.Model):
     transfer_course_number = models.CharField(
                         max_length=15,
                         help_text='The course number of the transfer course')
-    mtu_equiv_id = models.ForeignKey(
+    mtu_equiv = models.ForeignKey(
                 'MTUCourse',
-                related_name='mtu_equiv_id',
+                related_name='mtu_equiv',
                 on_delete=models.CASCADE,
                 help_text='The MTU course associated with the transfer course')
     transfer_course_college_code = models.ForeignKey(
