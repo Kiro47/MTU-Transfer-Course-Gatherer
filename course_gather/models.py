@@ -51,9 +51,6 @@ class Course(models.Model):
     '''
     The Transfer Course
     '''
-    transfer_course_id = models.CharField(
-                        max_length=15,
-                        help_text='The id of the transfer course')
     transfer_course_credit = models.FloatField(
                     blank=True,
                     help_text='The number of credits the transfer course is')
@@ -77,10 +74,10 @@ class Course(models.Model):
                             help_text='The state the course is located in')
 
     def __str__(self):
-        return self.transfer_course_id
+        return self.transfer_course_number
 
     class Meta:
-        ordering = ['transfer_course_id']
+        ordering = ['transfer_course_number']
         verbose_name = 'transfer_course'
         verbose_name_plural = 'transfer_courses'
         db_table = 'transfer_courses'
