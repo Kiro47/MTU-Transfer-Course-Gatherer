@@ -29,7 +29,7 @@ class StateSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    mtu_equiv_id = MTUCourseSerializer(read_only=True)
+    mtu_equiv = MTUCourseSerializer(read_only=True)
     transfer_state = StateSerializer(read_only=True)
     transfer_college = CollegeSerializer(read_only=True)
 

@@ -52,6 +52,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffset\
+Pagination',
+    'PAGE_SIZE': 100
+}
+
 ROOT_URLCONF = 'course_gather.urls'
 
 TEMPLATES = [
