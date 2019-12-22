@@ -100,7 +100,7 @@ class Command(BaseCommand):
             except ValueError:
                 transfering_credits = 0.0
 
-            mtu_equiv_id = entry['MTU_number']
+            mtu_equiv = entry['MTU_number']
             mtu_subject = entry['MTU_subject']
             mtu_course_name = entry['MTU_class_name']
             try:
@@ -112,8 +112,8 @@ class Command(BaseCommand):
                                                state_code=transfer_state_code),
                     transfer_course_college_code=College.objects.get(
                                            college_code=transfer_college_code),
-                    mtu_equiv_id=MTUCourse.objects.get(
-                                            mtu_course_id=mtu_equiv_id,
+                    mtu_equiv=MTUCourse.objects.get(
+                                            mtu_course_id=mtu_equiv,
                                             mtu_subject=mtu_subject,
                                             mtu_course_name=mtu_course_name,
                                             mtu_credits=mtu_credits),
