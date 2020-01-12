@@ -1,6 +1,6 @@
 BeautifulSoup4
 Django
-django-filters
+django-filter
 djangorestframework
 html5lib
 requests
