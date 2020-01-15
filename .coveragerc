@@ -5,7 +5,7 @@ omit =
     course_gather/migrations/*
     manage.py
 [report]
-fail_under = 100
+# fail_under = 100
 omit =
     */node_modules/*
     */migrations/*

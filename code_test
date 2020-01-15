@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+set -e # If anything fails the script fails
+
+coverage erase
+python manage.py test
+coverage run manage.py test
+coverage report
