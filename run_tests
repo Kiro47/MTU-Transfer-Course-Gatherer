@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e # If anything fails the script fails
 
+
+python manage.py makemigrations
+python manage.py migrate
+
 coverage erase
 coverage run manage.py test --with-coverage
 coverage report
