@@ -5,9 +5,21 @@
 __pycache__/
 local_settings.py
 migrations
-
 .env
 db.sqlite3
 
-# NodeJS
+### Coverage ###
+htmlcov/
+.coverage
+.coverage.xml
+*.cover
+man/
+
+### NodeJS ###
 node_modules
+
+### Environment ###
+pyvenv.cfg
+bin/
+lib/
+lib64

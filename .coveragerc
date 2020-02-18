@@ -1,0 +1,14 @@
+[run]
+source = course_gather/
+omit =
+    */node_modules/*
+    course_gather/migrations/*
+    manage.py
+[report]
+# fail_under = 100
+omit =
+    */node_modules/*
+    */migrations/*
+    */settings/*
+    */tests.py
+    manage.py
