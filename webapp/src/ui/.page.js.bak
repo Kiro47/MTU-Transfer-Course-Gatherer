@@ -1,0 +1,64 @@
+import React from 'react'
+import {connect} from 'react-redux'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableHead,
+  Card,
+  CardContent,
+  Grid,
+  Paper
+} from '@material-ui/core'
+
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/styles';
+
+class Page extends React.Component {
+  render() {
+    return (
+      <Grid container spacing={2} justify="center" alignItems="center" direction="row">
+        <Grid item container xs={6} direction="column">
+          <Paper>
+            <Card>
+              <CardContent style={{
+                              fontSize: 40,
+                              justifyContent: 'center',
+                              alignContent: 'center',
+                              textAlign: 'center'}}
+              >
+                Disks
+              </CardContent>
+            </Card>
+          </Paper>
+        </Grid>
+        <Grid item container xs={6} direction="column">
+          <Paper>
+            <Card className="serverCard">
+              <CardContent style={{
+                              fontSize: 40,
+                              justifyContent: 'center',
+                              alignContent: 'center',
+                              textAlign: 'center'}}
+              >
+                Servers
+              </CardContent>
+            </Card>
+          </Paper>
+        </Grid>
+      </Grid>
+    )
+  }
+}
+
+function mapStateToProps(state) {
+  return state
+}
+const mapDispatchToProps = {
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Page)
