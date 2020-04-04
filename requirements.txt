@@ -6,3 +6,4 @@ html5lib
 requests
 django-nose
 coverage
+django-cors-headers
