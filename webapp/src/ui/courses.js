@@ -2,53 +2,34 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getCourses} from '../actions/courses'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableHead,
   Input
 } from '@material-ui/core'
 
-const columns = [
-  { id: 'mtu_equiv.mtu_course_name', label:'Class Name'},
-  { id: 'mtu_equiv.mtu_course_subject', label: 'Class'},
-];
+import CoursesList from './components/coursesList';
 
 function handleChange(event: object) {
   let e = event;
   let searchKey = e.target.value.toLowerCase();
+  this.setState({ query: searchKey });
   let data = this.filterCourses(searchKey);
   setTimeout(function() {
     this.setState({ filtered: data })
-  }.bind(this), 400)
+  }.bind(this), 450)
 }
 
 class Courses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filtered: []
+      filtered: [],
+      loading: true,
+      query: ""
     }
     this.handleChange = handleChange.bind(this);
   }
+
   componentDidMount() {
     this.props.getCourses()
-    this.setState({
-      filtered: this.props.results
-    });
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if(state.filtered) {
-      if(state.filtered.length !== props) {
-        return state;
-      }
-    }
-    state = {
-      filtered: props.results
-    };
-    return state;
   }
 
   filterCourses = (filterKey) => {
@@ -62,49 +43,29 @@ class Courses extends React.Component {
   }
 
   render() {
-    let data = this.props.courses.results;
-    if(this.state.filtered) {
-      data = this.state.filtered;
+    const courses = this.props.courses;
+    const state = this.state;
+    const loading = courses.loading;
+    let data = courses.results;
+    const filtered = state.filtered;
+    if(filtered.length > 0 && filtered.length < data.length) {
+      data = filtered;
     }
-    console.log(this.state)
-    if(!this.props.loading && data) {
+    if(!loading) {
       return (
-        <div className="courses">
+        <div>
           <Input
+            value={state.query}
             onChange={this.handleChange}
             fullWidth={true}
             placeholder="Search..."
             autoFocus={true}
           />
-          <Table>
-            <TableHead>
-              <TableRow>
-                {columns.map(column => (
-                  <TableCell
-                    key={column.id}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.mtu_equiv.mtu_course_name}</TableCell>
-                  <TableCell>
-                    {row.mtu_equiv.mtu_subject} {row.mtu_equiv.mtu_course_id}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <CoursesList data={data} />
         </div>
-      )
+      );
     } else {
-      return (
-        <p>Loading...</p>
-      )
+      return (<p> Loading... </p>);
     }
   }
 }
