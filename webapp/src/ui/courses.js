@@ -18,7 +18,6 @@ const columns = [
 function handleChange(event: object) {
   let e = event;
   let searchKey = e.target.value.toLowerCase();
-  let coursesObjects = this.props.courses.results;
   let data = this.filterCourses(searchKey);
   setTimeout(function() {
     this.setState({ filtered: data })
