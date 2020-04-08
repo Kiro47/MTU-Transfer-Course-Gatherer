@@ -22,7 +22,7 @@ class CoursesList extends React.Component {
     let data = this.props.data;
     data = data.slice(0, 50)
     return (
-      <div className="courses">
+      <div className="courses-list">
         <Table>
           <TableHead>
             <TableRow>

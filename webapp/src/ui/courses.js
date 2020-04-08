@@ -2,7 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getCourses} from '../actions/courses'
 import {
-  Input
+  Input,
+  LinearProgress,
 } from '@material-ui/core'
 
 import CoursesList from './components/coursesList';
@@ -34,6 +35,7 @@ class Courses extends React.Component {
 
   filterCourses = (filterKey) => {
     let filteredCourses = this.props.courses.results;
+    if(!filteredCourses) return 0;
     filteredCourses = filteredCourses.filter((course) => {
       let searchString = JSON.stringify(course)
       return searchString.toLowerCase().indexOf(
@@ -45,28 +47,26 @@ class Courses extends React.Component {
   render() {
     const courses = this.props.courses;
     const state = this.state;
-    const loading = courses.loading;
     let data = courses.results;
     const filtered = state.filtered;
     if(filtered.length > 0 && filtered.length < data.length) {
       data = filtered;
     }
-    if(!loading) {
-      return (
-        <div>
-          <Input
-            value={state.query}
-            onChange={this.handleChange}
-            fullWidth={true}
-            placeholder="Search..."
-            autoFocus={true}
-          />
-          <CoursesList data={data} />
-        </div>
-      );
-    } else {
-      return (<p> Loading... </p>);
-    }
+    return (
+      <div className="courses">
+        <Input
+          value={state.query}
+          onChange={this.handleChange}
+          fullWidth={true}
+          placeholder="Search..."
+          autoFocus={true}
+        />
+        {data
+          ? <CoursesList data={data} />
+          : <LinearProgress />
+        }
+      </div>
+    );
   }
 }
 
