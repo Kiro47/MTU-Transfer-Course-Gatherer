@@ -8,13 +8,12 @@ import {
 } from '@material-ui/core'
 
 const columns = [
-  { id: 'mtu_equiv.mtu_course_name', label:'Class Name'},
-  { id: 'mtu_equiv.mtu_course_subject', label: 'Subject'},
-  { id: 'mtu_equiv.mtu_course_id', label: 'Class Code'},
-  { id: 'mtu_equiv.mtu_credits', label: 'Credits'},
-  { id: 'transfer_course_college_code.college_name', label: 'transfer college'},
-  { id: 'transfer_course_state_code.state_name', label: 'transfer state'},
-  { id: 'transfer_course_credit', label: 'transfer course credit'},
+  { id: 'course_name', label: 'Course Name'},
+  { id: 'course_subject', label: 'Subject'},
+  { id: 'course_id', label: 'Course Code'},
+  { id: 'course_credits', label: 'Credits'},
+  { id: 'transfer_state', label: 'State'},
+  { id: 'transfer_college', label: 'College'},
 ];
 
 class CoursesList extends React.Component {
@@ -38,13 +37,12 @@ class CoursesList extends React.Component {
           <TableBody>
             {data.map(row => (
               <TableRow key={row.id}>
-                <TableCell>{row.mtu_equiv.mtu_course_name}</TableCell>
-                <TableCell>{row.mtu_equiv.mtu_subject}</TableCell>
-                <TableCell>{row.mtu_equiv.mtu_course_id}</TableCell>
-                <TableCell>{row.mtu_equiv.mtu_credits}</TableCell>
-                <TableCell>{row.transfer_course_college_code.college_name}</TableCell>
-                <TableCell>{row.transfer_course_state_code.state_name}</TableCell>
-                <TableCell>{row.transfer_course_credit}</TableCell>
+                <TableCell>{row.course_name}</TableCell>
+                <TableCell>{row.course_subject}</TableCell>
+                <TableCell>{row.course_id}</TableCell>
+                <TableCell>{row.course_credits}</TableCell>
+                <TableCell>{row.transfer_state}</TableCell>
+                <TableCell>{row.transfer_college}</TableCell>
               </TableRow>
             ))}
           </TableBody>

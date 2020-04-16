@@ -8,15 +8,6 @@ import {
 
 import CoursesList from './components/coursesList';
 
-function handleChange(event: object) {
-  let e = event;
-  let searchKey = e.target.value.toLowerCase();
-  this.setState({ query: searchKey });
-  let data = this.filterCourses(searchKey);
-  setTimeout(function() {
-    this.setState({ filtered: data })
-  }.bind(this), 450)
-}
 
 class Courses extends React.Component {
   constructor(props) {
@@ -26,7 +17,6 @@ class Courses extends React.Component {
       loading: true,
       query: ""
     }
-    this.handleChange = handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +32,15 @@ class Courses extends React.Component {
         filterKey) !== -1
     })
     return filteredCourses;
+  }
+
+  handleChange = (event: object) => {
+    let searchKey = event.target.value.toLowerCase();
+    this.setState({ query: searchKey });
+    let data = this.filterCourses(searchKey);
+    setTimeout(function() {
+      this.setState({ filtered: data })
+    }.bind(this), 450)
   }
 
   render() {
