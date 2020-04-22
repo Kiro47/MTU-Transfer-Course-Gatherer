@@ -2,7 +2,7 @@ from course_gather.models import (
     College,
     Course,
     MTUCourse,
-    State
+    State,
 )
 
 from course_gather.serializers import (
@@ -39,7 +39,12 @@ class CollegeViewSet(viewsets.ModelViewSet):
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
-    queryset = Course.objects.all()
+    queryset = Course.objects.all().select_related(
+                                           'mtu_equiv',
+                                           'transfer_course_college_code',
+                                           'transfer_course_college_code',
+                                           'transfer_course_state_code',
+                                           'transfer_course_state_code')
     filterset_class = CourseFilter
     filter_backends = (filters.DjangoFilterBackend,)
 
