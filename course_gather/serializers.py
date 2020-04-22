@@ -29,10 +29,18 @@ class StateSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    mtu_equiv = MTUCourseSerializer(read_only=True)
-    transfer_state = StateSerializer(read_only=True)
-    transfer_college = CollegeSerializer(read_only=True)
+    course_id = serializers.CharField(source='mtu_equiv.mtu_course_id')
+    course_name = serializers.CharField(source='mtu_equiv.mtu_course_name')
+    course_subject = serializers.CharField(source='mtu_equiv.mtu_subject')
+    course_credits = serializers.CharField(source='mtu_equiv.mtu_credits')
+    transfer_college = serializers.CharField(
+                            source='transfer_course_college_code.college_name')
+    transfer_state = serializers.CharField(
+                            source='transfer_course_state_code.state_name')
 
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = ['id', 'course_id', 'course_name', 'course_subject',
+                  'course_credits', 'transfer_course_credit',
+                  'transfer_course_number', 'transfer_college',
+                  'transfer_state']
