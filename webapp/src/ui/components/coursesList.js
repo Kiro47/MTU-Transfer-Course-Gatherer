@@ -5,6 +5,7 @@ import {
   TableCell,
   TableRow,
   TableHead,
+  TablePagination
 } from '@material-ui/core'
 
 const columns = [
@@ -17,12 +18,45 @@ const columns = [
 ];
 
 class CoursesList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 0,
+      rowsPerPage: 100
+    }
+  }
+    handleChangePage = (event, newPage) => {
+      const oldPage = this.state.page;
+      this.setState({ page: newPage, oldPage: oldPage })
+    };
+    handleChangeRowsPerPage = (event) => {
+      this.setState({ rowsPerPage: event.target.value })
+    };
+
   render() {
     let data = this.props.data;
-    data = data.slice(0, 50)
+    const total = data.length;
+    let page = this.state.page;
+    let rowsPerPage = this.state.rowsPerPage;
+    let startRange = rowsPerPage * page;
+    let endRange = (page + 1) * rowsPerPage;
+
+    data = data.slice(startRange, endRange);
+
     return (
       <div className="courses-list">
-        <Table>
+        <TablePagination
+          component="div"
+          rowsPerPageOptions={[100, 200]}
+          rowsPerPage={rowsPerPage}
+          count={total}
+          page={page}
+          onChangePage={this.handleChangePage}
+          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+
+        />
+
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map(column => (

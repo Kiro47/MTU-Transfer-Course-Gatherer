@@ -1,12 +1,21 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {getCourses} from '../actions/courses'
+import CoursesList from './components/coursesList';
+import styled from 'styled-components';
 import {
   Input,
-  LinearProgress,
+  LinearProgress
 } from '@material-ui/core'
+import { connect } from 'react-redux'
+import { getCourses } from '../actions/courses'
 
-import CoursesList from './components/coursesList';
+const Span = styled.span`
+  font-size: 10px;
+  text-align: left;
+  display: flex;
+  justify-content: left,
+  align-content: left,
+  text-align: left
+`;
 
 
 class Courses extends React.Component {
@@ -24,13 +33,17 @@ class Courses extends React.Component {
   }
 
   filterCourses = (filterKey) => {
+    if(!this.props.courses.results) return [];
     let filteredCourses = this.props.courses.results;
-    if(!filteredCourses) return 0;
-    filteredCourses = filteredCourses.filter((course) => {
-      let searchString = JSON.stringify(course)
-      return searchString.toLowerCase().indexOf(
-        filterKey) !== -1
-    })
+    let searchFilter = filterKey.split(' ');
+    filteredCourses = filteredCourses.filter(course => {
+      let entry = Object.values(course);
+      let entryString = entry.slice(0, entry.length)
+      let modifiedEntryString = entryString.join().toLowerCase();
+      return searchFilter.every(key => {
+        return modifiedEntryString.includes(key.toLowerCase())
+      });
+    });
     return filteredCourses;
   }
 
@@ -38,29 +51,33 @@ class Courses extends React.Component {
     let searchKey = event.target.value.toLowerCase();
     this.setState({ query: searchKey });
     let data = this.filterCourses(searchKey);
-    setTimeout(function() {
-      this.setState({ filtered: data })
-    }.bind(this), 450)
+    this.setState({ filtered: data })
   }
+
 
   render() {
     const courses = this.props.courses;
     const state = this.state;
-    let data = courses.results;
     const filtered = state.filtered;
+    const totalData = courses.total;
+    let data = courses.results;
     if(filtered.length > 0 && filtered.length < data.length) {
       data = filtered;
     }
     return (
       <div className="courses">
+        <Span>
+          Matched {filtered.length} results
+        </Span>
+        <Span> Got {totalData ? totalData : 0} results </Span>
         <Input
           value={state.query}
-          onChange={this.handleChange}
+          onChange={(e) => this.handleChange(e)}
           fullWidth={true}
           placeholder="Search..."
           autoFocus={true}
         />
-        {data
+        {!this.props.courses.loading
           ? <CoursesList data={data} />
           : <LinearProgress />
         }

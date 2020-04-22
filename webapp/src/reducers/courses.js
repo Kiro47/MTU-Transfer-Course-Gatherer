@@ -14,9 +14,13 @@ export default function(state = initialState, action) {
       return { ...state, loading: true }
     case GET_COURSES_SUCCESS:
       let results = action.payload.results;
+      let next = action.payload.next;
+      let total = action.payload.count;
       return {
         ...state,
         results,
+        next,
+        total,
         loading: false
       }
     case GET_COURSES_ERROR:
