@@ -35,22 +35,17 @@ class CoursesList extends React.Component {
 
   render() {
     let data = this.props.data;
-    const total = data.length;
-    let page = this.state.page;
-    let rowsPerPage = this.state.rowsPerPage;
-    let startRange = rowsPerPage * page;
-    let endRange = (page + 1) * rowsPerPage;
-
-    data = data.slice(startRange, endRange);
+    data = data.slice(this.state.rowsPerPage * this.state.page,
+                      (this.state.page + 1) * this.state.rowsPerPage);
 
     return (
       <div className="courses-list">
         <TablePagination
           component="div"
           rowsPerPageOptions={[100, 200]}
-          rowsPerPage={rowsPerPage}
-          count={total}
-          page={page}
+          rowsPerPage={this.state.rowsPerPage}
+          count={this.props.data.length}
+          page={this.state.page}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
 
