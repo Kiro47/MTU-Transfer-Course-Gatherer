@@ -12,7 +12,6 @@
     "redux": "^4.0.5",
     "redux-api-middleware": "^3.2.1",
     "redux-logger": "^3.0.6",
-    "styled-components": "^5.1.0",
     "typeface-roboto": "0.0.75",
     "xo": "^0.29.1"
   },
