@@ -12,7 +12,7 @@ export default function (state = initialState, action) {
 	switch (action.type) {
 		case GET_COURSES_REQUEST:
 			return {...state, loading: true};
-		case GET_COURSES_SUCCESS:
+		case GET_COURSES_SUCCESS: {
 			const results = action.payload.results;
 			const next = action.payload.next;
 			const total = action.payload.count;
@@ -24,6 +24,8 @@ export default function (state = initialState, action) {
 				total,
 				loading: false
 			};
+		}
+
 		case GET_COURSES_ERROR:
 			return {
 				...state,

@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
+	TableContainer,
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
@@ -27,7 +29,35 @@ const CoursesList = ({data}) => {
 	}, [rowsPerPage, page, data]);
 
 	return (
-		<div>
+		<Paper>
+			<TableContainer>
+				<Table stickyHeader>
+					<TableHead>
+						<TableRow>
+							{columns.map(column => (
+								<TableCell
+									key={column.id}
+								>
+									{column.label}
+								</TableCell>
+							))}
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{displayedData.map(row => (
+							<TableRow key={row.id} hover>
+								<TableCell>{row.course_name}</TableCell>
+								<TableCell>{row.course_subject}</TableCell>
+								<TableCell>{row.course_id}</TableCell>
+								<TableCell>{row.course_credits}</TableCell>
+								<TableCell>{row.transfer_state}</TableCell>
+								<TableCell>{row.transfer_college}</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+
 			<TablePagination
 				component="div"
 				rowsPerPageOptions={[10, 50, 100, 200]}
@@ -36,35 +66,8 @@ const CoursesList = ({data}) => {
 				page={page}
 				onChangePage={(_, newPage) => setPage(newPage)}
 				onChangeRowsPerPage={event => setRowsPerPage(event.target.value)}
-
 			/>
-
-			<Table stickyHeader>
-				<TableHead>
-					<TableRow>
-						{columns.map(column => (
-							<TableCell
-								key={column.id}
-							>
-								{column.label}
-							</TableCell>
-						))}
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{displayedData.map(row => (
-						<TableRow key={row.id}>
-							<TableCell>{row.course_name}</TableCell>
-							<TableCell>{row.course_subject}</TableCell>
-							<TableCell>{row.course_id}</TableCell>
-							<TableCell>{row.course_credits}</TableCell>
-							<TableCell>{row.transfer_state}</TableCell>
-							<TableCell>{row.transfer_college}</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
-		</div>
+		</Paper>
 	);
 };
 

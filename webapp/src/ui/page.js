@@ -1,13 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {
-	Card,
-	CardContent,
-	Grid,
-	Paper,
-	Typography,
-	Link
-} from '@material-ui/core';
+import {Grid, Typography, Link} from '@material-ui/core';
 
 import Courses from './courses';
 
@@ -20,6 +13,10 @@ const Page = () => (
 
 			<Typography gutterBottom variant="h4">
 				at <Link href="https://mtu.edu" target="_blank" rel="noopener noreferrer">Michigan Tech</Link>
+			</Typography>
+
+			<Typography variant="subtitle1" align="right">
+				Last updated <b>6 hours ago</b>
 			</Typography>
 		</Grid>
 

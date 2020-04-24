@@ -1,9 +1,16 @@
 import React, {useState, useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import {InputBase, Backdrop, CircularProgress, Paper, Box, InputAdornment} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CoursesList from './components/courses-list';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCourses} from '../store/actions/courses';
+
+const useStyles = makeStyles(() => ({
+	backdrop: {
+		zIndex: 1000
+	}
+}));
 
 const Courses = () => {
 	const dispatch = useDispatch();
@@ -35,6 +42,8 @@ const Courses = () => {
 		}));
 	}, [query, courses]);
 
+	const classes = useStyles();
+
 	return (
 		<div>
 			<Paper>
@@ -46,23 +55,19 @@ const Courses = () => {
 								<SearchIcon/>
 							</InputAdornment>
 						}
-						placeholder="Start typing to filter by university name, course code, subject..." onChange={e => setQuery(e.target.value)}/>
+						placeholder="Start typing to filter by university name, course code, subject..." onChange={event => setQuery(event.target.value)}/>
 				</Box>
 			</Paper>
 
-			<Box mt={2}>
+			<Box mt={2} mb={2}>
 				Matched {filteredCourses.length} out of {courses.total ? courses.total : 0} results
 			</Box>
 
 			<CoursesList data={filteredCourses}/>
 
-			{courses.loading ? (
-				<Backdrop open>
-					<CircularProgress color="inherit"/>
-				</Backdrop>
-			) : (
-				<div/>
-			)}
+			<Backdrop open={courses.loading} className={classes.backdrop}>
+				<CircularProgress color="inherit"/>
+			</Backdrop>
 		</div>
 	);
 };

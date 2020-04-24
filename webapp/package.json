@@ -28,13 +28,21 @@
     "extends": "xo-react",
     "env": [
       "browser"
-    ]
+    ],
+    "rules": {
+      "react/prop-types": "off",
+      "default-param-last": "off"
+    }
   },
   "eslintConfig": {
     "extends": [
       "xo",
       "xo-react"
-    ]
+    ],
+    "rules": {
+      "react/prop-types": "off",
+      "default-param-last": "off"
+    }
   },
   "browserslist": {
     "production": [
