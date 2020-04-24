@@ -1,100 +1,70 @@
-import React from 'react'
-import CoursesList from './components/coursesList';
-import styled from 'styled-components';
-import {
-  Input,
-  LinearProgress
-} from '@material-ui/core'
-import { connect } from 'react-redux'
-import { getCourses } from '../actions/courses'
+import React, {useState, useEffect} from 'react';
+import {InputBase, Backdrop, CircularProgress, Paper, Box, InputAdornment} from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import CoursesList from './components/courses-list';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCourses} from '../store/actions/courses';
 
-const Span = styled.span`
-  font-size: 10px;
-  text-align: left;
-  display: flex;
-  justify-content: left,
-  align-content: left,
-  text-align: left
-`;
+const Courses = () => {
+	const dispatch = useDispatch();
 
+	// Update courses on load
+	useEffect(() => {
+		dispatch(getCourses());
+	}, [dispatch]);
 
-class Courses extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filtered: [],
-      loading: true,
-      query: ""
-    }
-  }
+	const [query, setQuery] = useState('');
+	const courses = useSelector(state => state.courses);
+	const [filteredCourses, setFilteredCourses] = useState([]);
 
-  componentDidMount() {
-    this.props.getCourses()
-  }
+	useEffect(() => {
+		if (!courses.results) {
+			setFilteredCourses([]);
+			return;
+		}
 
-  filterCourses = (filterKey) => {
-    if(!this.props.courses.results) return [];
-    let filteredCourses = this.props.courses.results;
-    let searchFilter = filterKey.split(' ');
-    filteredCourses = filteredCourses.filter(course => {
-      let entry = Object.values(course);
-      let entryString = entry.slice(0, entry.length)
-      let modifiedEntryString = entryString.join().toLowerCase();
-      return searchFilter.every(key => {
-        return modifiedEntryString.includes(key.toLowerCase())
-      });
-    });
-    return filteredCourses;
-  }
+		const searchFilter = query.split(' ');
 
-  handleChange = (event: object) => {
-    let searchKey = event.target.value.toLowerCase();
-    this.setState({ query: searchKey });
-    let data = this.filterCourses(searchKey);
-    this.setState({ filtered: data })
-  }
+		setFilteredCourses(courses.results.filter(course => {
+			const entry = Object.values(course);
+			const entryString = entry.slice(0, entry.length);
+			const modifiedEntryString = entryString.join().toLowerCase();
+			return searchFilter.every(key => {
+				return modifiedEntryString.includes(key.toLowerCase());
+			});
+		}));
+	}, [query, courses]);
 
+	return (
+		<div>
+			<Paper>
+				<Box p={2}>
+					<InputBase
+						fullWidth autoFocus value={query}
+						startAdornment={
+							<InputAdornment position="start">
+								<SearchIcon/>
+							</InputAdornment>
+						}
+						placeholder="Start typing to filter by university name, course code, subject..." onChange={e => setQuery(e.target.value)}/>
+				</Box>
+			</Paper>
 
-  render() {
-    const courses = this.props.courses;
-    const state = this.state;
-    const filtered = state.filtered;
-    const totalData = courses.total;
-    let data = courses.results;
-    if(filtered.length > 0 && filtered.length < data.length) {
-      data = filtered;
-    }
-    return (
-      <div className="courses">
-        <Span>
-          Matched {filtered.length} results
-        </Span>
-        <Span> Got {totalData ? totalData : 0} results </Span>
-        <Input
-          value={state.query}
-          onChange={(e) => this.handleChange(e)}
-          fullWidth={true}
-          placeholder="Search..."
-          autoFocus={true}
-        />
-        {!this.props.courses.loading
-          ? <CoursesList data={data} />
-          : <LinearProgress />
-        }
-      </div>
-    );
-  }
-}
+			<Box mt={2}>
+				Matched {filteredCourses.length} out of {courses.total ? courses.total : 0} results
+			</Box>
 
-function mapStateToProps(state) {
-  return state
-}
+			<CoursesList data={filteredCourses}/>
 
-const mapDispatchToProps = {
-  getCourses
-}
+			{courses.loading ? (
+				<Backdrop open>
+					<CircularProgress color="inherit"/>
+				</Backdrop>
+			) : (
+				<div/>
+			)}
+		</div>
+	);
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Courses)
+export default Courses;
