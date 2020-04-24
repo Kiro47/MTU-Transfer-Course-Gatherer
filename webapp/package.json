@@ -17,9 +17,9 @@
     "xo": "^0.29.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "xo",
     "lint-fix": "xo --fix"
@@ -49,13 +49,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
-    "@babel/plugin-syntax-optional-chaining": "^7.8.3",
-    "customize-cra": "^0.9.1",
     "eslint-config-xo": "^0.29.1",
     "eslint-config-xo-react": "^0.23.0",
     "eslint-plugin-react": "^7.19.0",
-    "eslint-plugin-react-hooks": "^3.0.0",
-    "react-app-rewired": "^2.1.5"
+    "eslint-plugin-react-hooks": "^3.0.0"
   }
 }
