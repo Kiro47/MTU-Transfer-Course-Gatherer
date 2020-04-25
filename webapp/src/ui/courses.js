@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {InputBase, Backdrop, CircularProgress, Paper, Box, InputAdornment} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import {useDebounce} from 'use-debounce';
 import CoursesList from './components/courses-list';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCourses} from '../store/actions/courses';
@@ -21,16 +22,20 @@ const Courses = () => {
 	}, [dispatch]);
 
 	const [query, setQuery] = useState('');
+	const [debouncedQuery] = useDebounce(query, 300, {maxWait: 2000});
 	const courses = useSelector(state => state.courses);
 	const [filteredCourses, setFilteredCourses] = useState([]);
+	const [isFiltering, setIsFiltering] = useState(false);
 
 	useEffect(() => {
+		setIsFiltering(false);
+
 		if (!courses.results) {
 			setFilteredCourses([]);
 			return;
 		}
 
-		const searchFilter = query.split(' ');
+		const searchFilter = debouncedQuery.split(' ');
 
 		setFilteredCourses(courses.results.filter(course => {
 			const entry = Object.values(course);
@@ -40,7 +45,13 @@ const Courses = () => {
 				return modifiedEntryString.includes(key.toLowerCase());
 			});
 		}));
-	}, [query, courses]);
+	}, [debouncedQuery, courses]);
+
+	const onQueryChange = event => {
+		setQuery(event.target.value);
+
+		setIsFiltering(true);
+	};
 
 	const classes = useStyles();
 
@@ -49,13 +60,20 @@ const Courses = () => {
 			<Paper>
 				<Box p={2}>
 					<InputBase
-						fullWidth autoFocus value={query}
+						fullWidth autoFocus
 						startAdornment={
 							<InputAdornment position="start">
 								<SearchIcon/>
 							</InputAdornment>
 						}
-						placeholder="Start typing to filter by university name, course code, subject..." onChange={event => setQuery(event.target.value)}/>
+						endAdornment={
+							isFiltering ? (
+								<InputAdornment position="end">
+									<CircularProgress color="inherit"/>
+								</InputAdornment>
+							) : null
+						}
+						placeholder="Start typing to filter by university name, course code, subject..." onChange={onQueryChange}/>
 				</Box>
 			</Paper>
 

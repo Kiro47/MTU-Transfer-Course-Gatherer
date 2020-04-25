@@ -71,4 +71,4 @@ const CoursesList = ({data}) => {
 	);
 };
 
-export default CoursesList;
+export default React.memo(CoursesList);
