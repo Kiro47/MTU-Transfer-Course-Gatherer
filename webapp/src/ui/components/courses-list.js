@@ -22,7 +22,7 @@ const columns = [
 const CoursesList = ({data}) => {
 	const [displayedData, setDisplayedData] = useState(data);
 	const [page, setPage] = useState(0);
-	const [rowsPerPage, setRowsPerPage] = useState(10);
+	const [rowsPerPage, setRowsPerPage] = useState(50);
 
 	useEffect(() => {
 		setDisplayedData(data.slice(rowsPerPage * page, rowsPerPage * (page + 1)));
