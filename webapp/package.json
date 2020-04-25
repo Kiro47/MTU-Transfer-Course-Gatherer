@@ -31,7 +31,10 @@
     "rules": {
       "react/prop-types": "off",
       "default-param-last": "off"
-    }
+    },
+    "ignores": [
+      "build"
+    ]
   },
   "eslintConfig": {
     "extends": [
