@@ -24,13 +24,15 @@
     "lint-fix": "xo --fix"
   },
   "xo": {
-    "extends": "xo-react",
+    "extends": "xo-react/space",
+    "space": true,
     "env": [
       "browser"
     ],
     "rules": {
       "react/prop-types": "off",
-      "default-param-last": "off"
+      "default-param-last": "off",
+      "import/no-unassigned-import": "off"
     },
     "ignores": [
       "build"
@@ -38,12 +40,16 @@
   },
   "eslintConfig": {
     "extends": [
-      "xo",
-      "xo-react"
+      "xo-space",
+      "xo-react/space"
     ],
     "rules": {
       "react/prop-types": "off",
       "default-param-last": "off"
+    },
+    "env": {
+      "node": true,
+      "browser": true
     }
   },
   "browserslist": {
@@ -59,7 +65,8 @@
     ]
   },
   "devDependencies": {
-    "eslint-config-xo": "^0.29.1",
+    "eslint": "^6.8.0",
+    "eslint-config-xo-space": "^0.24.0",
     "eslint-config-xo-react": "^0.23.0",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
