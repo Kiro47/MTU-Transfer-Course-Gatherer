@@ -14,7 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-from django.views.generic import RedirectView
+from django.views.generic import (
+    RedirectView,
+    TemplateView
+)
 from rest_framework.routers import DefaultRouter
 from course_gather.viewsets import (
     CollegeViewSet,
@@ -29,6 +32,6 @@ router.register(r'mtu-courses', MTUCourseViewSet)
 router.register(r'states', StateViewSet)
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/api/')),
+    path('', TemplateView.as_view(template_name='index.html')),
     path('api/', include((router.urls, 'course_viewer'), namespace='views'))
 ]
