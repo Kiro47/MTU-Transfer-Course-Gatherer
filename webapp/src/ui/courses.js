@@ -6,7 +6,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 import {useDebounce} from 'use-debounce';
 import CoursesList from './components/courses-list';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCourses} from '../store/actions/courses';
+import {getCourses} from '../actions';
 
 const useStyles = makeStyles(() => ({
   backdrop: {

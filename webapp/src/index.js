@@ -7,7 +7,7 @@ import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import 'typeface-roboto';
 
-import configureStore from './store/configure-store';
+import configureStore from './configure-store';
 import Page from './ui/page';
 import ThemeSelector from './ui/components/theme-selector';
 
