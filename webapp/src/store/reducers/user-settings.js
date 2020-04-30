@@ -2,7 +2,7 @@ import {TOGGLE_THEME} from '../actions/user-settings';
 
 const initalState = {
   // Defaults to false (dark mode) since upon first load `theme` is undefined
-  lightTheme: window.localStorage.getItem('theme') ? window.localStorage.getItem('theme') : !window.matchMedia('(prefers-color-scheme: dark)').matches
+  lightTheme: window.localStorage.getItem('theme') ? window.localStorage.getItem('theme') === 'light' : !window.matchMedia('(prefers-color-scheme: dark)').matches
 };
 
 export default function (state = initalState, action) {
