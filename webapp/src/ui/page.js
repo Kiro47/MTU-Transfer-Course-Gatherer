@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {Grid, Typography, Link} from '@material-ui/core';
 
 import Courses from './courses';
@@ -22,14 +21,4 @@ const Page = () => (
   </Grid>
 );
 
-function mapStateToProps(state) {
-  return state;
-}
-
-const mapDispatchToProps = {
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Page);
+export default Page;
