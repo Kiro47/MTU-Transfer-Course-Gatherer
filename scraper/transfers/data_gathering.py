@@ -4,6 +4,7 @@ from singleton_decorator import singleton
 
 from .data_scraping import Data_Scraping
 from .data_types import College_Object
+from ..Logger import Logger
 
 
 @singleton
@@ -18,6 +19,7 @@ class Data_Gathering(object):
 
         primarily exists for logging initialization
         """
+        self.log = Logger(self.__class__.__name__)
 
     def get_college_object_list(self, state_mapping):
         """
@@ -63,10 +65,10 @@ class Data_Gathering(object):
 
         :returns: List of Course Objects
         """
-        print("Acquiring state map")
+        self.log.info("Acquiring state map")
         state_mapping = Data_Scraping().get_state_mapping()
-        print("Mapping colleges to states")
+        self.log.info("Mapping colleges to states")
         college_obj_list = self.get_college_object_list(state_mapping)
-        print("Getting course data from colleges")
+        self.log.info("Getting course data from colleges")
         Data_Scraping().get_courses_from_college(college_obj_list)
         return self.college_obj_list_to_class_obj_list(college_obj_list)
