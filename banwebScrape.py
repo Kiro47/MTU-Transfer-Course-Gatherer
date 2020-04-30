@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from scraper.transfers.file_utils import File_Utils
-from scraper.transfers.data_gathering import get_course_object_list
+from scraper.transfers.data_gathering import Data_Gathering
 
 """
 CSV Order:
@@ -22,7 +22,8 @@ CSV Order:
 
 def main():
     files = File_Utils()
-    files.write_to_csv(get_course_object_list(), "./writer.csv")
+    files.write_to_csv(Data_Gathering().get_course_object_list(),
+                       "./writer.csv")
     # global total_bytes_transfered
     # print("Bytes wasted: {}".format(
     #     total_bytes_transfered))
