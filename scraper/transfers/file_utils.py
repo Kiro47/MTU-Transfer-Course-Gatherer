@@ -3,6 +3,7 @@
 import csv
 
 from .data_types import Class_Object
+from ..Logger import Logger
 
 
 class File_Utils(object):
@@ -15,6 +16,7 @@ class File_Utils(object):
         """
         Blank init
         """
+        self.log = Logger(self.__class__.__name__)
 
     def write_to_csv(self, class_obj_list, output_file_name):
         """
@@ -49,6 +51,7 @@ class File_Utils(object):
         """
         with open(input_file_name) as csv_file:
             csv_reader = csv.reader(csv_file)
+            self.log.debug("Reading CSV from [{}]".format(input_file_name))
             for row in csv_reader:
                 print('"{}"'.format('", "'.join(row)))
 

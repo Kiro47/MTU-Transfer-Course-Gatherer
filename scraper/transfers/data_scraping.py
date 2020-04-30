@@ -5,6 +5,7 @@ import requests
 from singleton_decorator import singleton
 
 from .data_types import Class_Object
+from ..Logger import Logger
 
 URL_Base = "https://www.banweb.mtu.edu/owassb/mtu_transfer_detail."
 URL_State = URL_Base + "P_TRNS_STATE"
@@ -25,6 +26,7 @@ class Data_Scraping(object):
 
         primarily exists for logging initialization
         """
+        self.log = Logger(self.__class__.__name__)
 
     def get_state_mapping(self):
         """
@@ -98,7 +100,7 @@ class Data_Scraping(object):
             for row in table_rows[2::]:
                 table_columns = row.find_all('td')
                 if len(table_columns) != 7:
-                    print("Following row was not of length 7 \
+                    self.log.warning("Following row was not of length 7 \
                     issues may occur, skipping. [{}]".format(row))
                     continue
                 Oth_Subj = table_columns[0].find(text=True)
