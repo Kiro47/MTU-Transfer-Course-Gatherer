@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {InputBase, Backdrop, CircularProgress, Paper, Box, InputAdornment} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import ErrorIcon from '@material-ui/icons/Error';
 import {useDebounce} from 'use-debounce';
 import CoursesList from './components/courses-list';
 import {useDispatch, useSelector} from 'react-redux';
@@ -83,8 +84,18 @@ const Courses = () => {
 
       <CoursesList data={filteredCourses}/>
 
-      <Backdrop open={courses.loading} className={classes.backdrop}>
-        <CircularProgress color="inherit"/>
+      <Backdrop open={courses.loading || courses.error} className={classes.backdrop}>
+        {courses.error ? (
+          <Paper>
+            <Box p={4} textAlign="center">
+              <ErrorIcon style={{fontSize: 40}} color="inherit"/>
+
+              <p>Oops, something weird happened. The network request failed.</p>
+            </Box>
+          </Paper>
+        ) : (
+          <CircularProgress color="inherit"/>
+        )}
       </Backdrop>
     </div>
   );
