@@ -35,8 +35,6 @@ class Data_Scraping(object):
         :returns: A Dictioary of State Codes with their State Value
         """
         req = requests.get(URL_State)
-        # global total_bytes_transfered
-        # total_bytes_transfered += len(req.content)
         soup = BeautifulSoup(req.text, 'html5lib')
         content = soup.find("select", {"name": "state_code"})
         options = content.select('option[value]')
@@ -58,8 +56,6 @@ class Data_Scraping(object):
         """
         data = {"state_code": state_code}
         req = requests.post(URL_School, data)
-        # global total_bytes_transfered
-        # total_bytes_transfered += len(req.content)
         soup = BeautifulSoup(req.text, 'html5lib')
         content = soup.find("select", {"name": "SBGI_CODE"})
         options = content.select('option[value]')
@@ -85,8 +81,6 @@ class Data_Scraping(object):
                 "state": college_obj.college_state_code
             }
             req = requests.post(URL_Transcript, data)
-            # global total_bytes_transfered
-            # total_bytes_transfered += len(req.content)
             soup = BeautifulSoup(req.text, "html5lib")
             # There's no IDs or classes for the tables only CSS padding
             # pray they never change the layout

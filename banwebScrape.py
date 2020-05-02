@@ -39,9 +39,6 @@ def main():
     files = File_Utils()
     files.write_to_csv(Data_Gathering().get_course_object_list(),
                        "./writer.csv")
-    # global total_bytes_transfered
-    # print("Bytes wasted: {}".format(
-    #     total_bytes_transfered))
 
 
 if __name__ == "__main__":
