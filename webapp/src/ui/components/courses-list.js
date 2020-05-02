@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   TableContainer,
   Paper,
@@ -9,6 +9,7 @@ import {
   TableHead,
   TablePagination
 } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const columns = [
   {id: 'course_name', label: 'Course Name'},
@@ -19,14 +20,19 @@ const columns = [
   {id: 'transfer_college', label: 'College'}
 ];
 
-const CoursesList = ({data}) => {
-  const [displayedData, setDisplayedData] = useState(data);
+const CoursesList = ({data, loading}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
 
+  const getPromisedData = useCallback(() => {
+    return loading ? [...new Array(rowsPerPage).keys()] : data;
+  }, [loading, rowsPerPage, data]);
+
+  const [displayedData, setDisplayedData] = useState(getPromisedData());
+
   useEffect(() => {
-    setDisplayedData(data.slice(rowsPerPage * page, rowsPerPage * (page + 1)));
-  }, [rowsPerPage, page, data]);
+    setDisplayedData(getPromisedData().slice(rowsPerPage * page, rowsPerPage * (page + 1)));
+  }, [rowsPerPage, page, getPromisedData]);
 
   return (
     <Paper>
@@ -46,12 +52,12 @@ const CoursesList = ({data}) => {
           <TableBody>
             {displayedData.map(row => (
               <TableRow key={row.id} hover>
-                <TableCell>{row.course_name}</TableCell>
-                <TableCell>{row.course_subject}</TableCell>
-                <TableCell>{row.course_id}</TableCell>
-                <TableCell>{row.course_credits}</TableCell>
-                <TableCell>{row.transfer_state}</TableCell>
-                <TableCell>{row.transfer_college}</TableCell>
+                <TableCell>{loading ? <Skeleton/> : <span>{row.course_name}</span>}</TableCell>
+                <TableCell>{loading ? <Skeleton/> : <span>{row.course_subject}</span>}</TableCell>
+                <TableCell>{loading ? <Skeleton/> : <span>{row.course_id}</span>}</TableCell>
+                <TableCell>{loading ? <Skeleton/> : <span>{row.course_credits}</span>}</TableCell>
+                <TableCell>{loading ? <Skeleton/> : <span>{row.transfer_state}</span>}</TableCell>
+                <TableCell>{loading ? <Skeleton/> : <span>{row.transfer_college}</span>}</TableCell>
               </TableRow>
             ))}
           </TableBody>

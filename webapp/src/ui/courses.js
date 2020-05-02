@@ -1,21 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {InputBase, Backdrop, CircularProgress, Paper, Box, InputAdornment} from '@material-ui/core';
+import {InputBase, CircularProgress, Paper, Box, InputAdornment} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import ErrorIcon from '@material-ui/icons/Error';
+import Skeleton from '@material-ui/lab/Skeleton';
 import {useDebounce} from 'use-debounce';
 import CoursesList from './components/courses-list';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCourses} from '../actions';
-
-const useStyles = makeStyles(() => ({
-  backdrop: {
-    zIndex: 1000
-  }
-}));
+import useFocus from '../utils/use-focus';
 
 const Courses = () => {
   const dispatch = useDispatch();
+  // Const queryRef = useRef(null);
+  const [queryRef, setQueryFocus] = useFocus();
 
   // Update courses on load
   useEffect(() => {
@@ -54,14 +50,20 @@ const Courses = () => {
     setIsFiltering(true);
   };
 
-  const classes = useStyles();
+  // Focus query input after loading is finished
+  useEffect(() => {
+    if (courses.loading === false) {
+      setQueryFocus();
+    }
+  }, [courses, setQueryFocus]);
 
   return (
     <div>
       <Paper>
         <Box p={2}>
           <InputBase
-            fullWidth autoFocus
+            fullWidth
+            inputRef={queryRef} disabled={courses.loading}
             startAdornment={
               <InputAdornment position="start">
                 <SearchIcon/>
@@ -79,24 +81,14 @@ const Courses = () => {
       </Paper>
 
       <Box mt={2} mb={2}>
-        Matched {filteredCourses.length} out of {courses.total ? courses.total : 0} results
+        {courses.loading ? (
+          <Skeleton/>
+        ) : (
+          <span>Matched {filteredCourses.length} out of {courses.total ? courses.total : 0} results</span>
+        )}
       </Box>
 
-      <CoursesList data={filteredCourses}/>
-
-      <Backdrop open={courses.loading || courses.error} className={classes.backdrop}>
-        {courses.error ? (
-          <Paper>
-            <Box p={4} textAlign="center">
-              <ErrorIcon style={{fontSize: 40}} color="inherit"/>
-
-              <p>Oops, something weird happened. The network request failed.</p>
-            </Box>
-          </Paper>
-        ) : (
-          <CircularProgress color="inherit"/>
-        )}
-      </Backdrop>
+      <CoursesList data={filteredCourses} loading={courses.loading}/>
     </div>
   );
 };
