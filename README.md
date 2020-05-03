@@ -39,7 +39,10 @@ pip install -r requirements.txt
 
 Note: This will likely take several minutes
 
-This also automatically drops the output file to `/tmp/writer.csv`
+This also automatically drops the output file to `transfer-info.csv` if no
+arguments are supplied.
+
+Find more argument info with `./banwebScrape.py --help`
 
 ```
 ./banwebScrape.py

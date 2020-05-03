@@ -50,7 +50,7 @@ class Class_Object(object):
                 "Transfering College Code: {}\nTransfering College Name: {}\n"
                 "Transfering Subject: {}\nTransfering Course Number: {}\n"
                 "Transfering Credits: {}\nMTU Class Name: {}\n"
-                "MTU Subject: {}\nMTU Course Number: {}\nMTU Credits: {}"
+                "MTU Subject: {}\nMTU Course Number: {}\nMTU Credits: {}\n\n"
                 ).format(
             self.transfering_state_code, self.transfering_state_name,
             self.transfering_college_code, self.transferring_college_name,
