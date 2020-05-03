@@ -1,9 +1,10 @@
 BeautifulSoup4
 Django
+coverage
+django-cors-headers
 django-filter
+django-nose
 djangorestframework
 html5lib
 requests
-django-nose
-coverage
-django-cors-headers
+singleton-decorator
