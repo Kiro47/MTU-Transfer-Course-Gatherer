@@ -17,6 +17,7 @@ man/
 
 ### NodeJS ###
 node_modules
+build
 
 ### Environment ###
 pyvenv.cfg
@@ -24,6 +25,10 @@ venv
 bin/
 lib/
 lib64
+.env.local
+
+### OS-Specific ###
+.DS_Store
 
 ### IDEs
 .idea
