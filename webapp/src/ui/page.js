@@ -1,56 +1,24 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {
-  Card,
-  CardContent,
-  Grid,
-  Paper,
-} from '@material-ui/core'
+import React from 'react';
+import {Grid, Typography, Link} from '@material-ui/core';
 
 import Courses from './courses';
 
+const Page = () => (
+  <Grid container spacing={2}>
+    <Grid item xs={12}>
+      <Typography gutterBottom variant="h2">
+        Approved Transfer Courses
+      </Typography>
 
-const cardStyle = {
-  fontSize: 40,
-  justifyContent: 'center',
-  alignContent: 'center',
-  textAlign: 'center'
-};
+      <Typography gutterBottom variant="h4">
+        at <Link href="https://mtu.edu" target="_blank" rel="noopener noreferrer">Michigan Tech</Link>
+      </Typography>
+    </Grid>
 
-class Page extends React.Component {
-  render() {
-    return (
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Paper>
-            <Card>
-              <CardContent style={cardStyle}>
-                Course Gather
-              </CardContent>
-            </Card>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper>
-            <Card>
-              <CardContent style={cardStyle}>
-                <Courses />
-              </CardContent>
-            </Card>
-          </Paper>
-        </Grid>
-      </Grid>
-    )
-  }
-}
+    <Grid item xs={12}>
+      <Courses/>
+    </Grid>
+  </Grid>
+);
 
-function mapStateToProps(state) {
-  return state
-}
-const mapDispatchToProps = {
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Page)
+export default Page;

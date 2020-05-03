@@ -1,100 +1,104 @@
-import React from 'react'
-import CoursesList from './components/coursesList';
-import styled from 'styled-components';
-import {
-  Input,
-  LinearProgress
-} from '@material-ui/core'
-import { connect } from 'react-redux'
-import { getCourses } from '../actions/courses'
+import React, {useState, useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import {InputBase, Backdrop, CircularProgress, Paper, Box, InputAdornment} from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import ErrorIcon from '@material-ui/icons/Error';
+import {useDebounce} from 'use-debounce';
+import CoursesList from './components/courses-list';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCourses} from '../actions';
 
-const Span = styled.span`
-  font-size: 10px;
-  text-align: left;
-  display: flex;
-  justify-content: left,
-  align-content: left,
-  text-align: left
-`;
+const useStyles = makeStyles(() => ({
+  backdrop: {
+    zIndex: 1000
+  }
+}));
 
+const Courses = () => {
+  const dispatch = useDispatch();
 
-class Courses extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filtered: [],
-      loading: true,
-      query: ""
+  // Update courses on load
+  useEffect(() => {
+    dispatch(getCourses());
+  }, [dispatch]);
+
+  const [query, setQuery] = useState('');
+  const [debouncedQuery] = useDebounce(query, 300, {maxWait: 2000});
+  const courses = useSelector(state => state.courses);
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  useEffect(() => {
+    setIsFiltering(false);
+
+    if (!courses.results) {
+      setFilteredCourses([]);
+      return;
     }
-  }
 
-  componentDidMount() {
-    this.props.getCourses()
-  }
+    const searchFilter = debouncedQuery.split(' ');
 
-  filterCourses = (filterKey) => {
-    if(!this.props.courses.results) return [];
-    let filteredCourses = this.props.courses.results;
-    let searchFilter = filterKey.split(' ');
-    filteredCourses = filteredCourses.filter(course => {
-      let entry = Object.values(course);
-      let entryString = entry.slice(0, entry.length)
-      let modifiedEntryString = entryString.join().toLowerCase();
+    setFilteredCourses(courses.results.filter(course => {
+      const entry = Object.values(course);
+      const entryString = entry.slice(0, entry.length);
+      const modifiedEntryString = entryString.join().toLowerCase();
       return searchFilter.every(key => {
-        return modifiedEntryString.includes(key.toLowerCase())
+        return modifiedEntryString.includes(key.toLowerCase());
       });
-    });
-    return filteredCourses;
-  }
+    }));
+  }, [debouncedQuery, courses]);
 
-  handleChange = (event: object) => {
-    let searchKey = event.target.value.toLowerCase();
-    this.setState({ query: searchKey });
-    let data = this.filterCourses(searchKey);
-    this.setState({ filtered: data })
-  }
+  const onQueryChange = event => {
+    setQuery(event.target.value);
 
+    setIsFiltering(true);
+  };
 
-  render() {
-    const courses = this.props.courses;
-    const state = this.state;
-    const filtered = state.filtered;
-    const totalData = courses.total;
-    let data = courses.results;
-    if(filtered.length > 0 && filtered.length < data.length) {
-      data = filtered;
-    }
-    return (
-      <div className="courses">
-        <Span>
-          Matched {filtered.length} results
-        </Span>
-        <Span> Got {totalData ? totalData : 0} results </Span>
-        <Input
-          value={state.query}
-          onChange={(e) => this.handleChange(e)}
-          fullWidth={true}
-          placeholder="Search..."
-          autoFocus={true}
-        />
-        {!this.props.courses.loading
-          ? <CoursesList data={data} />
-          : <LinearProgress />
-        }
-      </div>
-    );
-  }
-}
+  const classes = useStyles();
 
-function mapStateToProps(state) {
-  return state
-}
+  return (
+    <div>
+      <Paper>
+        <Box p={2}>
+          <InputBase
+            fullWidth autoFocus
+            startAdornment={
+              <InputAdornment position="start">
+                <SearchIcon/>
+              </InputAdornment>
+            }
+            endAdornment={
+              isFiltering ? (
+                <InputAdornment position="end">
+                  <CircularProgress color="inherit"/>
+                </InputAdornment>
+              ) : null
+            }
+            placeholder="Start typing to filter by university name, course code, subject..." onChange={onQueryChange}/>
+        </Box>
+      </Paper>
 
-const mapDispatchToProps = {
-  getCourses
-}
+      <Box mt={2} mb={2}>
+        Matched {filteredCourses.length} out of {courses.total ? courses.total : 0} results
+      </Box>
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Courses)
+      <CoursesList data={filteredCourses}/>
+
+      <Backdrop open={courses.loading === true || courses.error !== undefined} className={classes.backdrop}>
+        {courses.error ? (
+          <Paper>
+            <Box p={4} textAlign="center">
+              <ErrorIcon style={{fontSize: 40}} color="inherit"/>
+
+              <p>Oops, something weird happened. The network request failed.</p>
+            </Box>
+          </Paper>
+        ) : (
+          <CircularProgress color="inherit"/>
+        )}
+      </Backdrop>
+    </div>
+  );
+};
+
+export default Courses;

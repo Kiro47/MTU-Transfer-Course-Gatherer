@@ -1,21 +1,49 @@
-import React from 'react'
-import {render} from 'react-dom'
-import {Provider} from 'react-redux'
-import configureStore from './store/configureStore'
-import Page from './ui/page'
+import React from 'react';
+import {render} from 'react-dom';
+import {Provider, useSelector} from 'react-redux';
+import {Container} from '@material-ui/core';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 import 'typeface-roboto';
-import {
-  Container
-} from '@material-ui/core'
 
+import configureStore from './configure-store';
+import Page from './ui/page';
+import ThemeSelector from './ui/components/theme-selector';
 
-const store = configureStore()
+const store = configureStore();
 
-render(
+const App = () => {
+  const isLightTheme = useSelector(state => state.userSettings.lightTheme);
+
+  const theme = React.useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          type: isLightTheme ? 'light' : 'dark'
+        }
+      }),
+    [isLightTheme]
+  );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline/>
+
+      <Container>
+        <ThemeSelector/>
+        <Box marginTop={8}>
+          <Page/>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
+};
+
+const AppWithRedux = () => (
   <Provider store={store}>
-    <Container>
-      <Page />
-    </Container>
-  </Provider>,
-  document.getElementById('root')
-)
+    <App/>
+  </Provider>
+);
+
+render(<AppWithRedux/>, document.querySelector('#root'));
