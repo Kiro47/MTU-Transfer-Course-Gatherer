@@ -24,6 +24,11 @@ const CoursesList = ({data}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
 
+  // Reset current page upon data change
+  useEffect(() => {
+    setPage(0);
+  }, [data]);
+
   useEffect(() => {
     setDisplayedData(data.slice(rowsPerPage * page, rowsPerPage * (page + 1)));
   }, [rowsPerPage, page, data]);

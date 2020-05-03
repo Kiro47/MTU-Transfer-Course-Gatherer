@@ -84,7 +84,7 @@ const Courses = () => {
 
       <CoursesList data={filteredCourses}/>
 
-      <Backdrop open={courses.loading || courses.error} className={classes.backdrop}>
+      <Backdrop open={courses.loading === true || courses.error !== undefined} className={classes.backdrop}>
         {courses.error ? (
           <Paper>
             <Box p={4} textAlign="center">
