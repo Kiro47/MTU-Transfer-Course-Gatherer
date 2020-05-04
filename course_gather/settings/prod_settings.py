@@ -1,7 +1,7 @@
 from course_gather.settings.base import *  # noqa: F401, F403
 import os
 
-SECRET_KEY = os.getenv('PROD_KEY', '')
+SECRET_KEY = os.getenv('SECRET_KEY', '')
 DEBUG = False
 ALLOWED_HOSTS = ['*']
 
