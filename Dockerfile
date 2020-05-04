@@ -1,17 +1,34 @@
-FROM python:buster
+FROM node:buster AS builder
 
 RUN apt-get update
-RUN apt-get -y install curl git rsync \
-    # Node version 14
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash \
-    && apt-get install nodejs
-
+RUN apt-get install -y git
 
 RUN git clone https://github.com/codetheweb/MTU-Transfer-Course-Gatherer.git /app/
+
+WORKDIR /app/webapp/
+
+# Build up the frontend
+ARG REACT_APP_ENDPOINT
+ENV REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT
+
+RUN npm install --only=prod
+RUN npm update
+RUN npm run build
+RUN mkdir -p /app/static/
+
+RUN cp -r build/* /app/static
+RUN mv /app/static/static/* /app/static/
+RUN rm -r /app/static/static
+
+
+FROM python:buster
+
+# Copy contents from builder
+COPY --from=builder /app /app
+
 WORKDIR /app/
 
-# Install Python dependencies
-
+# Install python deps and build backend
 RUN pip3 install --upgrade pip -r requirements.txt
 RUN python3 ./manage.py makemigrations
 RUN python3 ./manage.py migrate
@@ -21,22 +38,8 @@ RUN python3 ./manage.py custom_db_sync /tmp/writer.csv
 ARG DJANGO_SETTINGS_MODULE
 ENV DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 
-ARG REACT_APP_ENDPOINT
-ENV REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT
-
-ARG PROD_KEY
-ENV PROD_KEY=$PROD_KEY
-
-WORKDIR /app/webapp/
-
-RUN npm install --only=prod
-RUN npm update
-# Fix vulns
-RUN npm audit fix
-RUN npm run build
-RUN mkdir -p /app/static/
-RUN rsync -av --progress --exclude=static/ build/ /app/static/
-RUN rsync -av --progress build/static/* /app/static/
+ARG SECRET_KEY
+ENV SECRET_KEY=$SECRET_KEY
 
 WORKDIR /app/
 EXPOSE 8000
