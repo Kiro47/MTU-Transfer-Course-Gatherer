@@ -26,7 +26,8 @@ RUN rm -r /app/static/static
 FROM python:buster
 
 # Copy contents from builder
-COPY --from=builder /app /app
+RUN ls -lR /app/
+COPY --from=builder /app/static /app/static
 
 # Copy base files
 COPY banwebScrape.py /app/
