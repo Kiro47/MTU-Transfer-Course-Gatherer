@@ -1,9 +1,6 @@
 FROM node:buster AS builder
 
-RUN apt-get update
-RUN apt-get install -y git
-
-RUN git clone https://github.com/Kiro47/MTU-Transfer-Course-Gatherer.git /app/
+COPY . /app/
 
 WORKDIR /app/webapp/
 
