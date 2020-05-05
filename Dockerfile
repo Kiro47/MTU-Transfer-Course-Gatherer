@@ -1,6 +1,20 @@
 FROM node:buster AS builder
 
-COPY . /app/
+# Copy base files
+COPY banwebScrape.py /app/
+COPY course_gather /app/
+COPY manage.py /app/
+COPY requirements.txt /app/
+COPY run_tests /app/
+COPY scraper /app/
+
+# Create webapp directory
+RUN mkdir webapp/
+
+# Copy JSX source files
+COPY webapp/src /app/src
+COPY webapp/public /app/public
+COPY webapp/package*.json /app
 
 WORKDIR /app/webapp/
 
