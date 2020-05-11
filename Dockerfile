@@ -4,8 +4,6 @@ FROM node:buster AS builder
 RUN mkdir -p /app/webapp
 
 # Copy JSX source files
-COPY webapp/src /app/webapp/src
-COPY webapp/public /app/webapp/public
 COPY webapp/package*.json /app/webapp/
 
 WORKDIR /app/webapp/
@@ -15,7 +13,12 @@ ARG REACT_APP_ENDPOINT
 ENV REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT
 
 RUN npm install --only=prod
+
+COPY webapp/src /app/webapp/src
+COPY webapp/public /app/webapp/public
+
 RUN npm run build
+
 RUN mkdir -p /app/static/
 
 RUN cp -r build/* /app/static
@@ -26,7 +29,6 @@ RUN rm -r /app/static/static
 FROM python:buster
 
 # Copy contents from builder
-RUN ls -lR /app/
 COPY --from=builder /app/static /app/static
 
 # Copy base files
@@ -34,7 +36,6 @@ COPY banwebScrape.py /app/
 COPY course_gather /app/course_gather
 COPY manage.py /app/
 COPY requirements.txt /app/
-COPY run_tests /app/
 COPY scraper /app/scraper
 
 WORKDIR /app/
