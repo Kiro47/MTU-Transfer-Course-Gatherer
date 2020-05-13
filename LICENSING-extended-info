@@ -1,0 +1,15 @@
+MTU-Transfer-Course-Gatherer (This project):
+    - Mozilla Public License Version 2.0
+
+All code included in this repository was initially made for this repository,
+no libraries or copied code are included.
+
+Primary Licensing Choice Reasons:
+    - Open Source
+    - Malleable in usage
+    - Allows distribution without becoming "infectious"
+        - Essentially allows people to take bits and pieces of the work to be
+          reused without worrying about licensing behind what was pulled. IE: A
+          new frontend could be written without worry on disclosure on added
+          components.
+    - No annoyances with copying license notices in every file
