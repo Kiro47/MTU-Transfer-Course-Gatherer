@@ -2,10 +2,10 @@
 
 from argparse import Namespace
 from logging import _nameToLevel
-import enum
+from enum import Enum
 
 
-class Output_Types(enum.Enum):
+class Output_Types(Enum):
 
     """
     Enums to make handling easier
@@ -19,7 +19,7 @@ class Output_Types(enum.Enum):
         return self.value
 
     @staticmethod
-    def fromString(string: str) -> enum.Enum:
+    def fromString(string: str) -> Enum:
         """
         To enum from string
 
