@@ -8,3 +8,5 @@ djangorestframework
 html5lib
 requests
 singleton-decorator
+gunicorn
+whitenoise

@@ -70,10 +70,7 @@ python3 manage.py custom_db_sync /tmp/writer.csv
 ##### Run the django server
 
 ```
+EXPORT DJANGO_SETTINGS_MODULE="course_gather.settings.dev_settings"
+EXPORT SECRET_KEY="YOURSECRETKEY"
 python3 manage.py runserver
 ```
-
-### TODOs
-* Change the serializer to output in an object format
-* Add filtering to the back end
-* Make the react front end
