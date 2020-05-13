@@ -47,6 +47,9 @@ def form_cli_args():
     parser.add_argument("--output-type", default="csv",
                         choices=Output_Types.get_names(),
                         help="Filetype to save data in")
+    parser.add_argument("--minify", action="store_true",
+                        help="Minify's the file contents " +
+                        "(only works with JSON output)")
     # Read in options
     parser.add_argument("--in-file", default=None,
                         help="File to read from instead of scraping fresh.")
@@ -74,12 +77,17 @@ def main():
     files = File_Utils()
 
     out_file = "{filename}.{extension}".format(filename=args.output,
-            extension=args.output_type)
+                                               extension=args.output_type)
     log.info("Preparing to write data to {}".format(out_file))
     if args.in_file:
         # no scrape, load from file
         if path.exists(args.in_file):
-            class_list = files.read_from_csv_to_Class_Obj_List(args.in_file)
+            if args.in_file_type == Output_Types.CSV:
+                class_list = files.read_from_csv_to_Class_Obj_List(
+                        args.in_file)
+            elif args.in_file_type == Output_Types.JSON:
+                class_list = files.read_from_json_to_Class_Obj_List(
+                        args.in_file)
         else:
             log.error("File {} not found.".format(args.in_file))
             exit(2)
@@ -87,7 +95,10 @@ def main():
         class_list = Data_Gathering().get_course_object_list()
         log.info("Data finished writing")
 
-    files.write_to_csv(class_list, out_file)
+    if args.output_type == Output_Types.CSV:
+        files.write_to_csv(class_list, out_file)
+    elif args.output_type == Output_Types.JSON:
+        files.write_to_json(class_list, out_file, args.minify)
 
 
 if __name__ == "__main__":
