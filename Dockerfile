@@ -3,7 +3,6 @@ FROM node:buster AS builder
 # Create webapp directory
 RUN mkdir -p /app/webapp
 
-# Copy JSX source files
 COPY webapp/package*.json /app/webapp/
 
 WORKDIR /app/webapp/
@@ -14,6 +13,7 @@ ENV REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT
 
 RUN npm install --only=prod
 
+# Copy JSX source files
 COPY webapp/src /app/webapp/src
 COPY webapp/public /app/webapp/public
 
