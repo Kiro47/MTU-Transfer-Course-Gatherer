@@ -32,9 +32,9 @@ FROM python:alpine
 
 # Get PostgreSQL client
 # https://stackoverflow.com/a/47871121
-RUN \
- apk add --no-cache postgresql-libs && \
- apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
+RUN apk update
+RUN apk add --no-cache postgresql-libs
+RUN apk add --no-cache --virtual build-dependencies gcc musl-dev postgresql-dev
 
 # Copy static site from webapp
 COPY --from=webapp /app/static /app/static
@@ -45,6 +45,9 @@ COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip3 install --upgrade pip -r requirements.txt --no-cache-dir
+
+# Remove unneeded build dependencies for smaller image
+RUN apk del build-dependencies
 
 # Set environment variables
 ENV DJANGO_SETTINGS_MODULE="course_gather.settings.prod_settings"

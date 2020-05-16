@@ -2,6 +2,6 @@
 *Dockerfile*
 *docker-compose*
 */node_modules
-bin
-lib
-man
+venv
+*/__pycache__
+*/migrations

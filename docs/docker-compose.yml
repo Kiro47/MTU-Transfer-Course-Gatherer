@@ -8,6 +8,7 @@ services:
     build:
       context: ../
       args:
+        # Set this to the base domain you're serving from
         - REACT_APP_ENDPOINT=http://localhost:8000
     environment:
       - DB_NAME=courses
@@ -20,8 +21,8 @@ services:
   db:
     container_name: courses-db
     image: postgres
-    volumes:
-      # Uncomment for persistent storage
+    # Uncomment for persistent storage
+    #volumes:
       # - ./database:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=courses

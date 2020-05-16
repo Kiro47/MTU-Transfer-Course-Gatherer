@@ -1,0 +1,16 @@
+FROM alpine
+
+RUN apk update
+RUN apk add --no-cache supervisor python3 python3-dev py-pip nodejs npm gcc musl-dev postgresql-dev postgresql-libs
+
+COPY supervisord.conf /etc/supervisord.conf
+
+WORKDIR /app
+
+# Set environment variables
+ENV DJANGO_SETTINGS_MODULE="course_gather.settings.dev_settings"
+ENV REACT_APP_ENDPOINT="http://localhost:8000"
+
+EXPOSE 8000
+
+ENTRYPOINT ["/bin/sh"]
