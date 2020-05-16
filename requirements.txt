@@ -11,3 +11,4 @@ singleton-decorator
 gunicorn
 whitenoise
 psycopg2
+django-debug-toolbar

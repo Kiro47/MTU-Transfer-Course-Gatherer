@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django_nose',
     'rest_framework',
     'django_filters',
+    'corsheaders',
+    'debug_toolbar',
     'course_gather'
 ]
 
@@ -50,6 +52,8 @@ NOSE_ARGS = [
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -134,3 +138,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
+
+INTERNAL_IPS = [
+    'localhost',
+    '127.0.0.1'
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
