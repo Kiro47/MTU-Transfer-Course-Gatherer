@@ -10,3 +10,4 @@ requests
 singleton-decorator
 gunicorn
 whitenoise
+psycopg2

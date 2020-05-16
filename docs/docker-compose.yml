@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  backend:
+    depends_on:
+      - db
+    container_name: courses-backend
+    build:
+      context: ../
+      args:
+        - REACT_APP_ENDPOINT=http://localhost:8000
+    environment:
+      - DB_NAME=courses
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - SECRET_KEY=supersecuresecretkey
+    ports:
+      - 8000:8000
+  db:
+    container_name: courses-db
+    image: postgres
+    volumes:
+      # Uncomment for persistent storage
+      # - ./database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=courses
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
