@@ -56,4 +56,4 @@ ENV DJANGO_SETTINGS_MODULE="course_gather.settings.prod_settings"
 COPY . .
 
 EXPOSE 8000
-ENTRYPOINT ["gunicorn", "-c", "course_gather/conf/gunicorn.ini", "course_gather.wsgi:application"]
+CMD ["gunicorn", "-c", "course_gather/conf/gunicorn.ini", "course_gather.wsgi:application"]
