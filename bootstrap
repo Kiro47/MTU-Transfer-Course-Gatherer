@@ -5,6 +5,7 @@ if [ "$1" == "with-dependencies" ]; then
   pip3 install --upgrade pip -r requirements.txt
 fi
 
+python3 ./manage.py makemigrations
 python3 ./manage.py migrate
 python3 ./banwebScrape.py
 python3 ./manage.py custom_db_sync ./writer.csv
