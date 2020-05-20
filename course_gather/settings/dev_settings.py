@@ -4,12 +4,12 @@ from course_gather.settings.base import *  # noqa: F401, F403
 SECRET_KEY = os.getenv('SECRET_KEY', '')
 DEBUG = True
 
-INSTALLED_APPS += (
+INSTALLED_APPS += (  # noqa: F405
     'corsheaders',
     'debug_toolbar',
 )
 
-MIDDLEWARE += (
+MIDDLEWARE += (  # noqa: F405
     'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
