@@ -4,3 +4,7 @@
 */node_modules
 venv
 **/*.pyc
+bin
+include
+lib
+man
