@@ -4,6 +4,18 @@ SECRET_KEY = os.getenv('SECRET_KEY', '')  # noqa: F405
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
+INSTALLED_APPS += (  # noqa: F405
+    'corsheaders',
+    'debug_toolbar',
+)
+
+MIDDLEWARE += (  # noqa: F405
+    'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
