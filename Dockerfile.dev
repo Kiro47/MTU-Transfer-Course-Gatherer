@@ -8,7 +8,7 @@ COPY supervisord.conf /etc/supervisord.conf
 WORKDIR /app
 
 # Set environment variables
-ENV DJANGO_SETTINGS_MODULE="course_gather.settings.dev_settings"
+ENV DJANGO_SETTINGS_MODULE="course_gather.settings.local_settings"
 ENV REACT_APP_ENDPOINT="http://localhost:8000"
 
 EXPOSE 8000

@@ -22,7 +22,7 @@ Then:
 1. Create a virtual environment: `python3 -m venv venv`
 2. Activate the environment: `source venv/bin/activate`
 3. Create required environment variables for Django:
-  - `EXPORT DJANGO_SETTINGS_MODULE="course_gather.settings.dev_settings"`
+  - `EXPORT DJANGO_SETTINGS_MODULE="course_gather.settings.local_settings"`
   - `EXPORT SECRET_KEY="YOURSECRETKEY"`
 4. Install dependencies and seed the database with an inital scrape: `./bootstrap with-dependencies`
 5. Copy `webapp/.env.example` to `webapp/.env` and edit values if neccessary
