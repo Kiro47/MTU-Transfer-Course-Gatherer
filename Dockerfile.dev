@@ -3,7 +3,7 @@ FROM alpine
 RUN apk update
 RUN apk add --no-cache supervisor python3 python3-dev py-pip nodejs npm gcc musl-dev postgresql-dev postgresql-libs
 
-COPY supervisord.conf /etc/supervisord.conf
+COPY course_gather/conf/supervisord.conf /etc/supervisord.conf
 
 WORKDIR /app
 
