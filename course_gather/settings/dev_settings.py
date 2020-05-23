@@ -26,3 +26,8 @@ DATABASES = {
         'PORT': int(os.getenv('DB_PORT', '5432'))
     }
 }
+
+# Allow all IPs to view debug toolbar
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK" : lambda request: True,
+}
