@@ -29,5 +29,5 @@ DATABASES = {
 
 # Allow all IPs to view debug toolbar
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK" : lambda request: True,
+    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
 }
