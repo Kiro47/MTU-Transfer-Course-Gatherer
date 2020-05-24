@@ -3,7 +3,7 @@ set -e # If anything fails the script fails
 
 
 export SECRET_KEY='superfakesecretkey'
-export DJANGO_SETTINGS_MODULE='course_gather.settings.prod_settings'
+export DJANGO_SETTINGS_MODULE='course_gather.settings.local_settings'
 
 python manage.py makemigrations
 python manage.py migrate

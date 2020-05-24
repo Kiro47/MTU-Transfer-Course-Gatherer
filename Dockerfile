@@ -1,21 +1,23 @@
-FROM node:buster AS builder
+# Build webapp
+FROM node:alpine AS webapp
 
 # Create webapp directory
 RUN mkdir -p /app/webapp
 
-COPY webapp/package*.json /app/webapp/
+WORKDIR /app/webapp
 
-WORKDIR /app/webapp/
+# Install packages
+COPY webapp/package*.json ./
 
-# Build up the frontend
+RUN npm ci --only=production
+
+# Copy source
+COPY webapp/src ./src
+COPY webapp/public ./public
+
+# Build app
 ARG REACT_APP_ENDPOINT
 ENV REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT
-
-RUN npm install --only=prod
-
-# Copy JSX source files
-COPY webapp/src /app/webapp/src
-COPY webapp/public /app/webapp/public
 
 RUN npm run build
 
@@ -25,35 +27,37 @@ RUN cp -r build/* /app/static
 RUN mv /app/static/static/* /app/static/
 RUN rm -r /app/static/static
 
+# Set up Django
+FROM python:alpine
 
-FROM python:buster
+# Get PostgreSQL client
+# https://stackoverflow.com/a/47871121
+RUN apk update
+RUN apk add --no-cache postgresql-libs
+RUN apk add --no-cache --virtual build-dependencies gcc musl-dev postgresql-dev
 
-# Copy contents from builder
-COPY --from=builder /app/static /app/static
+# Copy static site from webapp
+COPY --from=webapp /app/static /app/static
 
-# Copy base files
-COPY banwebScrape.py /app/
-COPY course_gather /app/course_gather
-COPY manage.py /app/
-COPY requirements.txt /app/
-COPY scraper /app/scraper
+WORKDIR /app
 
-WORKDIR /app/
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip3 install --upgrade pip -r requirements.txt --no-cache-dir
+
+# Remove unneeded build dependencies for smaller image
+RUN apk del build-dependencies
 
 # Set environment variables
-ARG DJANGO_SETTINGS_MODULE
-ENV DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+ENV DJANGO_SETTINGS_MODULE="course_gather.settings.prod_settings"
 
-ARG SECRET_KEY
-ENV SECRET_KEY=$SECRET_KEY
+# Copy source
+COPY banwebScrape.py .
+COPY course_gather ./course_gather
+COPY manage.py .
+COPY scraper ./scraper
+COPY scripts ./scripts
 
-# Install python deps and build backend
-RUN pip3 install --upgrade pip -r requirements.txt
-RUN python3 ./manage.py makemigrations
-RUN python3 ./manage.py migrate
-RUN python3 ./banwebScrape.py
-RUN python3 ./manage.py custom_db_sync /app/writer.csv
-
-WORKDIR /app/
 EXPOSE 8000
-CMD ["gunicorn", "-c", "course_gather/conf/gunicorn.ini", "course_gather.wsgi:application"]
+CMD ./scripts/startup
