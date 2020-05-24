@@ -1,4 +1,4 @@
-#!/bin/sh
+ #!/usr/bin/env sh
 
 if [ "$1" == "with-dependencies" ]; then
   cd webapp && npm i && cd ..
