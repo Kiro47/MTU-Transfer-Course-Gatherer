@@ -57,6 +57,7 @@ COPY banwebScrape.py .
 COPY course_gather ./course_gather
 COPY manage.py .
 COPY scraper ./scraper
+COPY scripts ./scripts
 
 EXPOSE 8000
-CMD ["gunicorn", "-c", "course_gather/conf/gunicorn.ini", "course_gather.wsgi:application"]
+CMD ./scripts/startup

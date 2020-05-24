@@ -18,4 +18,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Django Code Test
       run: |
-        ./run_tests
+        ./scripts/run_tests
