@@ -7,7 +7,7 @@ import {
 } from './action-types';
 
 export const getCourses = () => createAction({
-  endpoint: `${ENDPOINT}/api/courses/?limit=11000`,
+  endpoint: `${ENDPOINT}/api/courses/?limit=12000`,
   method: 'GET',
   types: [
     GET_COURSES_REQUEST,
