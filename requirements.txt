@@ -12,3 +12,4 @@ gunicorn
 whitenoise
 psycopg2
 django-debug-toolbar
+drf-yasg

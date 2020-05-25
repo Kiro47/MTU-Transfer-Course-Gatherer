@@ -13,6 +13,9 @@ MIDDLEWARE += (  # noqa: F405
     'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+DEFAULT_RENDERER_CLASSES += (
+    'rest_framework.renderers.BrowsableAPIRenderer',
+)
 
 CORS_ORIGIN_ALLOW_ALL = True
 

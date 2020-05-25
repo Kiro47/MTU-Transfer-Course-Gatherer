@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django_nose',
     'rest_framework',
     'django_filters',
+    'drf_yasg',
     'course_gather',
 ]
 
