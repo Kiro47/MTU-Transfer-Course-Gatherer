@@ -18,6 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "xo",
@@ -66,10 +67,11 @@
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-xo-space": "^0.24.0",
     "eslint-config-xo-react": "^0.23.0",
+    "eslint-config-xo-space": "^0.24.0",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
+    "source-map-explorer": "^2.4.2",
     "xo": "^0.29.1"
   }
 }
