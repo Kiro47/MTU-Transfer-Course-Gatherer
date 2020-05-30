@@ -36,9 +36,6 @@ RUN apk update
 RUN apk add --no-cache postgresql-libs
 RUN apk add --no-cache --virtual build-dependencies gcc musl-dev postgresql-dev
 
-# Copy static site from webapp
-COPY --from=webapp /app/static /app/static
-
 WORKDIR /app
 
 COPY requirements.txt .
@@ -58,6 +55,8 @@ COPY course_gather ./course_gather
 COPY manage.py .
 COPY scraper ./scraper
 COPY scripts ./scripts
+# Copy static site from webapp
+COPY --from=webapp /app/static /app/static-build
 
 EXPOSE 8000
 CMD ./scripts/startup

@@ -8,6 +8,8 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS.insert(0, 'whitenoise.runserver_nostatic')  # noqa: 405
 MIDDLEWARE.insert(0, 'whitenoise.middleware.WhiteNoiseMiddleware')  # noqa: 405
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
