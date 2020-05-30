@@ -18,14 +18,14 @@ COPY webapp/public ./public
 # Build app
 ARG REACT_APP_ENDPOINT
 ENV REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT
+# For public resources
+ENV PUBLIC_URL=/static
 
 RUN npm run build
 
 RUN mkdir -p /app/static/
 
 RUN cp -r build/* /app/static
-RUN mv /app/static/static/* /app/static/
-RUN rm -r /app/static/static
 
 # Set up Django
 FROM python:alpine
