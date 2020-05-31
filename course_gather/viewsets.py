@@ -23,6 +23,7 @@ from rest_framework import viewsets
 from django_filters import rest_framework as filters
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.views.decorators.gzip import gzip_page
 
 
 class StateViewSet(viewsets.ModelViewSet):
@@ -50,8 +51,8 @@ class CourseViewSet(viewsets.ModelViewSet):
     filterset_class = CourseFilter
     filter_backends = (filters.DjangoFilterBackend,)
 
-    # Cache for 5 minutes
-    @method_decorator(cache_page(60 * 5))
+    # Gzip, then cache for 5 minutes
+    @method_decorator([gzip_page, cache_page(60 * 5)])
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
