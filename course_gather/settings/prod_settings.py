@@ -20,3 +20,6 @@ DATABASES = {
         'PORT': int(os.getenv('DB_PORT', '5432'))
     }
 }
+
+# Max-Age cache control
+WHITENOISE_MAX_AGE = 60 * 60
