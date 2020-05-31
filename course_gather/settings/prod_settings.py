@@ -23,3 +23,11 @@ DATABASES = {
 
 # Max-Age cache control
 WHITENOISE_MAX_AGE = 60 * 60
+
+# Cache database table
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache',
+    }
+}
