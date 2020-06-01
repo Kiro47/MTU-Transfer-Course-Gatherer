@@ -23,7 +23,6 @@ from rest_framework import viewsets
 from django_filters import rest_framework as filters
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.views.decorators.gzip import gzip_page
 
 
 class StateViewSet(viewsets.ModelViewSet):
