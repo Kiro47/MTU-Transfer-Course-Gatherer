@@ -52,7 +52,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
 
     # Gzip, then cache for 5 minutes
-    @method_decorator([gzip_page, cache_page(60 * 5)])
+    @method_decorator(cache_page(60 * 5))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
