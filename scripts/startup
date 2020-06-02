@@ -1,10 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 set -e # If anything fails the script fails
-
 
 python manage.py makemigrations
 python manage.py migrate
-
-coverage erase
-coverage run manage.py test --with-coverage
-coverage report
+gunicorn -c course_gather/conf/gunicorn.ini course_gather.wsgi:application

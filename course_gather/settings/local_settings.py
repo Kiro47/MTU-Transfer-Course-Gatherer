@@ -1,34 +1,33 @@
 from course_gather.settings.base import *  # noqa: F401, F403
 
-SECRET_KEY = 'your_local_key_here'
+SECRET_KEY = os.getenv('SECRET_KEY', '')  # noqa: F405
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
-
-# Application definition
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+INSTALLED_APPS += (  # noqa: F405
     'corsheaders',
-    'rest_framework',
-    'course_gather'
-]
+    'debug_toolbar',
+)
 
-MIDDLEWARE = [
+MIDDLEWARE += (  # noqa: F405
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] += (  # noqa: F405
+    'rest_framework.renderers.BrowsableAPIRenderer',
+)
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # noqa: F405
+    }
+}
+
+# Allow all IPs to view debug toolbar
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+}
