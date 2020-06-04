@@ -21,8 +21,6 @@ from course_gather.filters import (
 
 from rest_framework import viewsets
 from django_filters import rest_framework as filters
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 
 
 class StateViewSet(viewsets.ModelViewSet):
@@ -49,11 +47,6 @@ class CourseViewSet(viewsets.ModelViewSet):
                                            'transfer_course_state_code')
     filterset_class = CourseFilter
     filter_backends = (filters.DjangoFilterBackend,)
-
-    # Gzip, then cache for 5 minutes
-    @method_decorator(cache_page(60 * 5))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
 
 class MTUCourseViewSet(viewsets.ModelViewSet):

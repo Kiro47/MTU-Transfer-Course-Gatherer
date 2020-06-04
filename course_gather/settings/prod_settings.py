@@ -8,7 +8,10 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS.insert(0, 'whitenoise.runserver_nostatic')  # noqa: 405
 
 # Insert after django.middleware.gzip.GZipMiddleware
+MIDDLEWARE.insert(2, 'django.middleware.cache.UpdateCacheMiddleware')
 MIDDLEWARE.insert(2, 'whitenoise.middleware.WhiteNoiseMiddleware')  # noqa: 405
+
+MIDDLEWARE.append('django.middleware.cache.FetchFromCacheMiddleware')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -33,3 +36,6 @@ CACHES = {
         'LOCATION': 'cache',
     }
 }
+
+# Response cache time
+CACHE_MIDDLEWARE_SECONDS = 60 * 15
