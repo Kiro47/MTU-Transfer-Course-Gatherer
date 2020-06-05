@@ -26,8 +26,9 @@ DATABASES = {
     }
 }
 
-# Max-Age cache control
-WHITENOISE_MAX_AGE = 60 * 60
+# Tell browser to cache static files forever.
+# (Static files have hashes appended to them during the build process.)
+WHITENOISE_MAX_AGE = 60 * 10000000
 
 # Cache database table
 CACHES = {
@@ -37,5 +38,5 @@ CACHES = {
     }
 }
 
-# Response cache time
+# Cache Django responses for 15 minutes
 CACHE_MIDDLEWARE_SECONDS = 60 * 15
