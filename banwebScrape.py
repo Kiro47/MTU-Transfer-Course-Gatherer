@@ -36,10 +36,14 @@ def form_cli_args():
     # logging
     log_level = parser.add_mutually_exclusive_group()
     log_level.add_argument("--debug", action="store_true",
-                           help="Toggles debug mode on")
+                           help=("Toggles debug mode on. "
+                               "(Cannot be used with --log-level)"
+                               ))
     log_level.add_argument("--log-level", default="INFO",
                            choices=_nameToLevel.keys(),
-                           help="Toggles logger level")
+                           help=("Toggles logger level. "
+                               "(Cannot be used with --debug)"
+                               ))
     parser.add_argument("--log-file", default=None, help="File to log to")
     # Contents output
     parser.add_argument("--output", default="transfer-info",
@@ -52,7 +56,9 @@ def form_cli_args():
                         "(only works with JSON output)")
     # Read in options
     parser.add_argument("--in-file", default=None,
-                        help="File to read from instead of scraping fresh.")
+                        help=("File to read from instead of scraping fresh."
+                            "  Used for converting into different formats"
+                            ))
     parser.add_argument("--in-file-type", default=None,
                         choices=Output_Types.get_names(),
                         help="Filetype of '--in-file', defaults to extension")
