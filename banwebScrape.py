@@ -37,13 +37,13 @@ def form_cli_args():
     log_level = parser.add_mutually_exclusive_group()
     log_level.add_argument("--debug", action="store_true",
                            help=("Toggles debug mode on. "
-                               "(Cannot be used with --log-level)"
-                               ))
+                                 "(Cannot be used with --log-level)"
+                                 ))
     log_level.add_argument("--log-level", default="INFO",
                            choices=_nameToLevel.keys(),
                            help=("Toggles logger level. "
-                               "(Cannot be used with --debug)"
-                               ))
+                                 "(Cannot be used with --debug)"
+                                 ))
     parser.add_argument("--log-file", default=None, help="File to log to")
     # Contents output
     parser.add_argument("--output", default="transfer-info",
@@ -57,8 +57,8 @@ def form_cli_args():
     # Read in options
     parser.add_argument("--in-file", default=None,
                         help=("File to read from instead of scraping fresh."
-                            "  Used for converting into different formats"
-                            ))
+                              "  Used for converting into different formats"
+                              ))
     parser.add_argument("--in-file-type", default=None,
                         choices=Output_Types.get_names(),
                         help="Filetype of '--in-file', defaults to extension")
@@ -88,7 +88,7 @@ def main():
     # clip it to prevent duplicate extension names.
     if args.output.split('.')[-1] != str(args.output_type):
         out_file = "{filename}.{extension}".format(filename=args.output,
-                                               extension=args.output_type)
+                                                   extension=args.output_type)
     else:
         out_file = args.output
     log.info("Preparing to write data to {}".format(out_file))
@@ -97,10 +97,10 @@ def main():
         if path.exists(args.in_file):
             if args.in_file_type == Output_Types.CSV:
                 class_list = files.read_from_csv_to_Class_Obj_List(
-                        args.in_file)
+                    args.in_file)
             elif args.in_file_type == Output_Types.JSON:
                 class_list = files.read_from_json_to_Class_Obj_List(
-                        args.in_file)
+                    args.in_file)
         else:
             log.error("File {} not found.".format(args.in_file))
             exit(2)
