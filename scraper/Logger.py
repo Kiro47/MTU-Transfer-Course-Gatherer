@@ -36,12 +36,12 @@ class LoggerManager(object):
         # Setting up stdio first as file is much less error prone
         if log_file:
             file_path = path.split(log_file)  # 0  head, 1 tail
-            if not file_path[0]:
+            if not file_path[1]:
                 # is directory
                 self.logger.critical("Provided logfile [{}] is a directory".
                                      format(log_file))
                 sys.exit(2)
-            if file_path[1]:
+            if file_path[0]:
                 # Is dir + file
                 try:
                     Path(file_path[0]).mkdir(parents=True, exist_ok=True)

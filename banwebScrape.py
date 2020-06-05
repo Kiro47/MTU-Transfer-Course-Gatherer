@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from logging import INFO, _nameToLevel
+from logging import INFO, DEBUG, _nameToLevel
 from os import path
 from sys import exit
 
@@ -71,7 +71,9 @@ def main():
     # Get CLI args
     args = form_cli_args()
     # Initialize logger
-    initialize_logging_manager()
+    if args.debug:
+        args.log_level = DEBUG
+    initialize_logging_manager(args.log_file, args.log_level)
     log = Logger("main")
     log.debug("Starting banwebScrape.py")
     files = File_Utils()
