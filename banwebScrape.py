@@ -84,8 +84,13 @@ def main():
     log.debug("Starting banwebScrape.py")
     files = File_Utils()
 
-    out_file = "{filename}.{extension}".format(filename=args.output,
+    # If output file's extension matches output_type extension
+    # clip it to prevent duplicate extension names.
+    if args.output.split('.')[-1] != str(args.output_type):
+        out_file = "{filename}.{extension}".format(filename=args.output,
                                                extension=args.output_type)
+    else:
+        out_file = args.output
     log.info("Preparing to write data to {}".format(out_file))
     if args.in_file:
         # no scrape, load from file
