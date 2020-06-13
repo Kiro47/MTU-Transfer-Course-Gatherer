@@ -1,6 +1,15 @@
 #!/usr/bin/env sh
 set -e # If anything fails the script fails
 
+# Compress static files
+python manage.py collectstatic
+
+# Create caching table
+python manage.py createcachetable
+
+# Migrate database
 python manage.py makemigrations
 python manage.py migrate
+
+# Start application
 gunicorn -c course_gather/conf/gunicorn.ini course_gather.wsgi:application

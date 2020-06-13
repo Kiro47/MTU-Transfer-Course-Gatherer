@@ -50,9 +50,9 @@ NOSE_ARGS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,7 +78,7 @@ ROOT_URLCONF = 'course_gather.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '../static/'), ],
+        'DIRS': [os.path.join(BASE_DIR, '../static-build/'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -170,4 +170,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '../static-build')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, '../static-root/')
