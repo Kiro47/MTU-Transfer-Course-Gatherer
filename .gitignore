@@ -1,3 +1,6 @@
+### Project Specific ###
+transfer-info.*
+
 ### Django ###
 *.log
 *.pot

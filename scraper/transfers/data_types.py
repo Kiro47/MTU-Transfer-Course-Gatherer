@@ -50,7 +50,7 @@ class Class_Object(object):
                 "Transfering College Code: {}\nTransfering College Name: {}\n"
                 "Transfering Subject: {}\nTransfering Course Number: {}\n"
                 "Transfering Credits: {}\nMTU Class Name: {}\n"
-                "MTU Subject: {}\nMTU Course Number: {}\nMTU Credits: {}"
+                "MTU Subject: {}\nMTU Course Number: {}\nMTU Credits: {}\n\n"
                 ).format(
             self.transfering_state_code, self.transfering_state_name,
             self.transfering_college_code, self.transferring_college_name,
@@ -75,6 +75,29 @@ class Class_Object(object):
             "MTU Course Number": self.MTU_number,
             "MTU Credits": self.MTU_credits
         }
+
+    @staticmethod
+    def fromDict(dict_obj: dict):
+        """
+        Returns a Class Object from a dict object with correct data types.
+
+        :dict_obj: Dictionary object which contains correct values
+
+        :return: Class_Object made from dict_obj
+        """
+        return Class_Object(
+            dict_obj.get("transfering_state_code"),
+            dict_obj.get("transfering_state_name"),
+            dict_obj.get("transfering_college_code"),
+            dict_obj.get("transferring_college_name"),
+            dict_obj.get("transfering_subject"),
+            dict_obj.get("transfering_number"),
+            dict_obj.get("transfering_credits"),
+            dict_obj.get("MTU_class_name"),
+            dict_obj.get("MTU_subject"),
+            dict_obj.get("MTU_number"),
+            dict_obj.get("MTU_credits")
+        )
 
 
 class College_Object(object):
