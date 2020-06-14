@@ -18,14 +18,14 @@ COPY webapp/public ./public
 # Build app
 ARG REACT_APP_ENDPOINT
 ENV REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT
+# For public resources
+ENV PUBLIC_URL=/static
 
 RUN npm run build
 
 RUN mkdir -p /app/static/
 
 RUN cp -r build/* /app/static
-RUN mv /app/static/static/* /app/static/
-RUN rm -r /app/static/static
 
 # Set up Django
 FROM python:alpine
@@ -35,9 +35,6 @@ FROM python:alpine
 RUN apk update
 RUN apk add --no-cache postgresql-libs
 RUN apk add --no-cache --virtual build-dependencies gcc musl-dev postgresql-dev
-
-# Copy static site from webapp
-COPY --from=webapp /app/static /app/static
 
 WORKDIR /app
 
@@ -58,6 +55,8 @@ COPY course_gather ./course_gather
 COPY manage.py .
 COPY scraper ./scraper
 COPY scripts ./scripts
+# Copy static site from webapp
+COPY --from=webapp /app/static /app/static-build
 
 EXPOSE 8000
 CMD ./scripts/startup
