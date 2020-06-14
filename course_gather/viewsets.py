@@ -19,25 +19,25 @@ from course_gather.filters import (
     StateFilter
 )
 
-from rest_framework import viewsets
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from django_filters import rest_framework as filters
 
 
-class StateViewSet(viewsets.ModelViewSet):
+class StateViewSet(ReadOnlyModelViewSet):
     serializer_class = StateSerializer
     queryset = State.objects.all()
     filterset_class = StateFilter
     filter_backends = (filters.DjangoFilterBackend,)
 
 
-class CollegeViewSet(viewsets.ModelViewSet):
+class CollegeViewSet(ReadOnlyModelViewSet):
     serializer_class = CollegeSerializer
     queryset = College.objects.all()
     filterset_class = CollegeFilter
     filter_backends = (filters.DjangoFilterBackend,)
 
 
-class CourseViewSet(viewsets.ModelViewSet):
+class CourseViewSet(ReadOnlyModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all().select_related(
                                            'mtu_equiv',
@@ -49,7 +49,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
 
 
-class MTUCourseViewSet(viewsets.ModelViewSet):
+class MTUCourseViewSet(ReadOnlyModelViewSet):
     serializer_class = MTUCourseSerializer
     queryset = MTUCourse.objects.all()
     filterset_class = MTUCourseFilter
