@@ -31,7 +31,7 @@ Then:
 
 ## Scripts
 
-- Scrape MTU and dump to `writer.csv`: `python3 banwebScrape.py`
+- Scrape MTU and dump to `transfer-info.csv`: `python3 banwebScrape.py`
 - Make database migrations: `python3 manage.py makemigrations`
 - Run database migrations: `python3 manage.py migrate`
-- Import scraped data to database: `python3 manage.py custom_db_sync writer.csv`
+- Import scraped data to database: `python3 manage.py custom_db_sync transfer-info.csv`

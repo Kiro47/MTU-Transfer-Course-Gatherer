@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import csv
+from json import dump, load
+from sys import stdout
 
 from .data_types import Class_Object
 from ..Logger import Logger
@@ -40,6 +42,48 @@ class File_Utils(object):
             writer.writeheader()
             for course in class_obj_list:
                 writer.writerow(course.toDict())
+
+    def write_to_json(self, class_obj_list, output_file_name: str,
+                      minify: bool):
+        """
+        Writes the class_obj_list to a JSON file
+
+        :class_obj_list: Class Object list to get data from
+        :output_file_name: Name of the file to write to
+        :minify: True to minify JSON, False for human readable
+
+        :returns: None
+        """
+        if minify:
+            indent = None
+        else:
+            indent = 4
+        if output_file_name:
+            # lambda clazz:clazz.__dict__ : Quick serialization of class
+            #                               into it's variable components
+            with open(output_file_name, "w") as output_file:
+                dump(class_obj_list, output_file,
+                     default=lambda clazz: clazz.toDict(),
+                     indent=indent, allow_nan=True, sort_keys=False)
+        else:
+            # We explicitly want this to dump to STDOUT
+            dump(class_obj_list, stdout, default=lambda clazz: clazz.toDict(),
+                 indent=indent, allow_nan=True, sort_keys=False)
+
+    def read_from_json_to_Class_Obj_List(self, input_file_name: str):
+        """
+        Reads from a file and returns a list of Class_Object's to rebuild data
+
+        :input_file_name: File to read from
+
+        :returns: A list of ClassObjects
+        """
+        class_obj_list = list()
+        with open(input_file_name) as json_file:
+            json = load(json_file)
+            for obj in json:
+                class_obj_list.append(Class_Object.fromDict(obj))
+        return class_obj_list
 
     def read_from_csv(self, input_file_name):
         """
