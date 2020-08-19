@@ -2,7 +2,7 @@ from course_gather.models import (
     College,
     Course,
     MTUCourse,
-    State
+    Location
 )
 from django_filters import rest_framework as filters
 
@@ -31,15 +31,15 @@ class CourseFilter(filters.FilterSet):
     transfer_course_college_code = filters.CharFilter(
                                     field_name='transfer_course_college_code',
                                     lookup_expr='icontains')
-    transfer_course_state_code = filters.CharFilter(
-                                    field_name='transfer_course_state_code',
+    transfer_course_location_code = filters.CharFilter(
+                                    field_name='transfer_course_location_code',
                                     lookup_expr='icontains')
 
     class Meta:
         model = Course
         fields = ['transfer_course_credit', 'transfer_course_number',
                   'mtu_equiv', 'transfer_course_college_code',
-                  'transfer_course_state_code']
+                  'transfer_course_location_code']
 
 
 class MTUCourseFilter(filters.FilterSet):
@@ -59,13 +59,13 @@ class MTUCourseFilter(filters.FilterSet):
                   'mtu_subject', 'mtu_credits']
 
 
-class StateFilter(filters.FilterSet):
-    state_code = filters.CharFilter(field_name='state_code',
-                                    lookup_expr='icontains')
-    state_name = filters.CharFilter(field_name='state_name',
-                                    lookup_expr='icontains')
+class LocationFilter(filters.FilterSet):
+    location_code = filters.CharFilter(field_name='location_code',
+                                       lookup_expr='icontains')
+    location_name = filters.CharFilter(field_name='location_name',
+                                       lookup_expr='icontains')
 
     class Meta:
-        model = State
-        fields = ['state_code',
-                  'state_name']
+        model = Location
+        fields = ['location_code',
+                  'location_name']

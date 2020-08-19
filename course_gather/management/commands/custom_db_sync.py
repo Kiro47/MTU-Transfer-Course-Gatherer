@@ -3,7 +3,7 @@ from course_gather.models import (
     College,
     Course,
     MTUCourse,
-    State
+    Location
 )
 from pathlib import Path
 import csv
@@ -54,8 +54,8 @@ class Command(BaseCommand):
                   CSV file
         """
         keys = [
-            'transfering_state_code',
-            'transfering_state_name',
+            'transfering_location_code',
+            'transfering_location_name',
             'transfering_college_code',
             'transfering_college_name',
             'transfering_subject',
@@ -78,7 +78,7 @@ class Command(BaseCommand):
         slight differences.
         :data: The list of dictionaries to then pass into the sub functions.
         """
-        self.add_transfer_states(data)
+        self.add_transfer_locations(data)
         self.add_transfer_colleges(data)
         self.add_mtu_courses(data)
         self.add_courses(data)
@@ -91,7 +91,7 @@ class Command(BaseCommand):
         :data: List of dictionaries that contain the CSV data
         """
         for entry in data:
-            transfer_state_code = entry['transfering_state_code']
+            transfer_location_code = entry['transfering_location_code']
             transfer_college_code = entry['transfering_college_code']
             transfer_course_number = entry['transfering_number']
             transfering_credits = entry['transfering_credits']
@@ -108,8 +108,8 @@ class Command(BaseCommand):
             except ValueError:
                 mtu_credits = 0.0
             Course.objects.update_or_create(
-                    transfer_course_state_code=State.objects.get(
-                                               state_code=transfer_state_code),
+                    transfer_course_location_code=Location.objects.get(
+                                       location_code=transfer_location_code),
                     transfer_course_college_code=College.objects.get(
                                            college_code=transfer_college_code),
                     mtu_equiv=MTUCourse.objects.get(
@@ -162,17 +162,18 @@ class Command(BaseCommand):
             College.objects.update_or_create(college_code=x[0],
                                              college_name=x[1])
 
-    def add_transfer_states(self, data):
+    def add_transfer_locations(self, data):
         """
         Adds the State table entries via Django models.
 
         :data: List of dictionaries that contain the CSV data
         """
-        state_set = set()
+        location_set = set()
         for entry in data:
-            state_code = entry['transfering_state_code']
-            state_name = entry['transfering_state_name']
-            state_set.add(tuple([state_code, state_name]))
+            location_code = entry['transfering_location_code']
+            location_name = entry['transfering_location_name']
+            location_set.add(tuple([location_code, location_name]))
 
-        for x in state_set:
-            State.objects.update_or_create(state_code=x[0], state_name=x[1])
+        for x in location_set:
+            Location.objects.update_or_create(location_code=x[0],
+                                              location_name=x[1])

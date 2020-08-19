@@ -25,14 +25,14 @@ from course_gather.viewsets import (
     CollegeViewSet,
     CourseViewSet,
     MTUCourseViewSet,
-    StateViewSet
+    LocationViewSet
 )
 
 router = DefaultRouter()
 router.register(r'colleges', CollegeViewSet)
 router.register(r'courses', CourseViewSet)
 router.register(r'mtu-courses', MTUCourseViewSet)
-router.register(r'states', StateViewSet)
+router.register(r'locations', LocationViewSet)
 
 schema_view = get_schema_view(
    openapi.Info(
