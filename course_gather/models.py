@@ -88,18 +88,55 @@ class MTUCourse(models.Model):
     '''
     The MTU Course
     '''
-    mtu_course_id = models.CharField(
+    mtu_course_crn = models.CharField(
                             max_length=50,
-                            help_text='The id of the MTU course')
+                            help_text='The CRN of the MTU course')
+    mtu_course_subject = models.CharField(
+                        max_length=50,
+                        help_text='The subject of the MTU course')
+    mtu_course_id = models.CharField(
+                        max_length=10,
+                        help_text='The course ID of the MTU course')
+    mtu_course_section = models.CharField(
+                            max_length=3,
+                            help_text='The section of the MTU course')
+    mtu_course_campus = models.CharField(
+                            max_length=2,
+                            default="1",
+                            help_text='The campus code of the MTU course')
+    mtu_course_credits = models.FloatField(
+                        blank=True,
+                        help_text='The amount of credits the MTU course is')
     mtu_course_name = models.CharField(
                             max_length=50,
                             help_text='The Name of the MTU course')
-    mtu_subject = models.CharField(
-                        max_length=50,
-                        help_text='The subject of the MTU course')
-    mtu_credits = models.FloatField(
-                        blank=True,
-                        help_text='The amount of credits the MTU course is')
+    mtu_course_days = models.CharField(
+                            max_length=7,
+                            help_text='The days the class is scheduled for')
+    mtu_course_time = models.CharField(
+                            max_length=40,
+                            help_text='The hours the MTU course runs')
+    mtu_course_capacity = models.IntegerField(
+                            help_text='The capacity of the class')
+    mtu_course_capacity_enrolled = models.IntegerField(
+                            help_text='The amount of students currently \
+                            enrolled in the course')
+    mtu_course_capacity_remaining = models.IntegerField(
+                            help_text='The seats remaining in the course')
+    mtu_course_instructor = models.CharField(
+                            max_length=60,
+                            help_text='The last name of the professor(s) \
+                            teaching the course')
+    mtu_course_duration = models.CharField(
+                            max_length=30,
+                            help_text='The date range the class runs')
+    mtu_course_location = models.CharField(
+                            max_length=10,
+                            help_text='The MTU building location code the \
+                            class is located in')
+    mtu_course_fee = models.CharField(
+                            max_length=80,
+                            help_text='The fee associated with the course')
 
     def __str__(self):
         return self.mtu_course_id
