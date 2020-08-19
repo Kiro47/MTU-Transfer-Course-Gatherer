@@ -42,9 +42,7 @@ class CourseViewSet(ReadOnlyModelViewSet):
     queryset = Course.objects.all().select_related(
                                            'mtu_equiv',
                                            'transfer_course_college_code',
-                                           'transfer_course_college_name',
-                                           'transfer_course_location_code',
-                                           'transfer_course_location_name')
+                                           'transfer_course_location_code')
     filterset_class = CourseFilter
     filter_backends = (filters.DjangoFilterBackend,)
 
