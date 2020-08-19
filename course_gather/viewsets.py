@@ -2,31 +2,31 @@ from course_gather.models import (
     College,
     Course,
     MTUCourse,
-    State,
+    Location,
 )
 
 from course_gather.serializers import (
     CollegeSerializer,
     CourseSerializer,
     MTUCourseSerializer,
-    StateSerializer
+    LocationSerializer
 )
 
 from course_gather.filters import (
     CollegeFilter,
     CourseFilter,
     MTUCourseFilter,
-    StateFilter
+    LocationFilter
 )
 
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from django_filters import rest_framework as filters
 
 
-class StateViewSet(ReadOnlyModelViewSet):
-    serializer_class = StateSerializer
-    queryset = State.objects.all()
-    filterset_class = StateFilter
+class LocationViewSet(ReadOnlyModelViewSet):
+    serializer_class = LocationSerializer
+    queryset = Location.objects.all()
+    filterset_class = LocationFilter
     filter_backends = (filters.DjangoFilterBackend,)
 
 
@@ -42,9 +42,9 @@ class CourseViewSet(ReadOnlyModelViewSet):
     queryset = Course.objects.all().select_related(
                                            'mtu_equiv',
                                            'transfer_course_college_code',
-                                           'transfer_course_college_code',
-                                           'transfer_course_state_code',
-                                           'transfer_course_state_code')
+                                           'transfer_course_college_name',
+                                           'transfer_course_location_code',
+                                           'transfer_course_location_name')
     filterset_class = CourseFilter
     filter_backends = (filters.DjangoFilterBackend,)
 

@@ -1,28 +1,29 @@
 from django.db import models
 
 
-class State(models.Model):
+class Location(models.Model):
     '''
     The Transfer State
     '''
-    state_code = models.CharField(
+    location_code = models.CharField(
                     max_length=2,
                     unique=True,
-                    help_text='The abbreviation of the transfer college state')
+                    help_text='The abbreviation of the \
+                    transfer college location')
 
-    state_name = models.CharField(
+    location_name = models.CharField(
                     max_length=200,
                     unique=True,
-                    help_text='The long name of the transfer college state')
+                    help_text='The long name of the transfer college location')
 
     def __str__(self):
-        return self.state_name
+        return self.location_name
 
     class Meta:
-        ordering = ['state_code']
-        verbose_name = 'state'
-        verbose_name_plural = 'states'
-        db_table = 'states'
+        ordering = ['location_code']
+        verbose_name = 'location'
+        verbose_name_plural = 'locations'
+        db_table = 'locations'
 
 
 class College(models.Model):
@@ -67,11 +68,11 @@ class Course(models.Model):
                             related_name='transfer_course_college_code',
                             on_delete=models.CASCADE,
                             help_text='The college that the course is at')
-    transfer_course_state_code = models.ForeignKey(
-                            'State',
-                            related_name='transfer_course_state_code',
+    transfer_course_location_code = models.ForeignKey(
+                            'Location',
+                            related_name='transfer_course_location_code',
                             on_delete=models.CASCADE,
-                            help_text='The state the course is located in')
+                            help_text='The location the course is located in')
 
     def __str__(self):
         return self.transfer_course_number

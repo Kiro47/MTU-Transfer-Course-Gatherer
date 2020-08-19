@@ -3,41 +3,43 @@ from course_gather.models import (
     College,
     Course,
     MTUCourse,
-    State
+    Location
 )
 
 
-class StateTest(TestCase):
-    model = State
+class LocationTest(TestCase):
+    model = Location
 
     def setUp(self):
-        self.model.objects.create(state_code='test_code123',
-                                  state_name='Test State')
+        self.model.objects.create(location_code='test_code123',
+                                  location_name='Test Location')
 
     def tearDown(self):
         self.model.objects.all().delete()
 
     def test_create(self):
-        new_state = self.model.objects.create(state_code='new_code321',
-                                              state_name='New Test State')
-        self.assertEqual(str(new_state), 'New Test State')
-        self.assertEqual(new_state.state_name, 'New Test State')
-        self.assertEqual(new_state.state_code, 'new_code321')
+        new_location = self.model.objects.create(
+                                        location_code='new_code321',
+                                        location_name='New Test Location')
+        self.assertEqual(str(new_location), 'New Test Location')
+        self.assertEqual(new_location.location_name, 'New Test Location')
+        self.assertEqual(new_location.location_code, 'new_code321')
 
-    def test_state_read(self):
-        state = self.model.objects.get(state_code='test_code123')
-        self.assertEqual(state.state_name, 'Test State')
+    def test_location_read(self):
+        location = self.model.objects.get(location_code='test_code123')
+        self.assertEqual(location.location_name, 'Test Location')
 
-    def test_state_update(self):
-        self.model.objects.filter(state_code='test_code123').update(
-                                            state_name='Updated State')
-        updated_state = self.model.objects.get(state_name='Updated State')
-        self.assertEqual(updated_state.state_name, 'Updated State')
+    def test_location_update(self):
+        self.model.objects.filter(location_code='test_code123').update(
+                                            location_name='Updated Location')
+        updated_location = self.model.objects.get(
+                                            location_name='Updated Location')
+        self.assertEqual(updated_location.location_name, 'Updated Location')
 
-    def test_state_destroy(self):
-        self.model.objects.get(state_name='Test State').delete()
-        states = self.model.objects.all()
-        self.assertEqual(len(states), 0)
+    def test_location_destroy(self):
+        self.model.objects.get(location_name='Test Location').delete()
+        locations = self.model.objects.all()
+        self.assertEqual(len(locations), 0)
 
 
 class CollegeTest(TestCase):
@@ -128,11 +130,11 @@ class MTUCourseTest(TestCase):
 
 class CourseTest(TestCase):
     model = Course
-    required_models = [State, MTUCourse, College]
+    required_models = [Location, MTUCourse, College]
 
     def setUp(self):
-        State.objects.create(state_code='test_code123',
-                             state_name='Test State')
+        Location.objects.create(location_code='test_code123',
+                                location_name='Test Location')
         MTUCourse.objects.create(mtu_course_id='TST1001',
                                  mtu_course_name='Test 101',
                                  mtu_subject='Test',
@@ -140,7 +142,7 @@ class CourseTest(TestCase):
         College.objects.create(college_code='test_code123',
                                college_name='Fake College')
 
-        test_state = State.objects.get(state_code='test_code123')
+        test_location = Location.objects.get(location_code='test_code123')
         test_college = College.objects.get(college_code='test_code123')
         test_mtu_course = MTUCourse.objects.get(mtu_course_id='TST1001')
 
@@ -148,7 +150,7 @@ class CourseTest(TestCase):
                               transfer_course_number='TN101',
                               mtu_equiv=test_mtu_course,
                               transfer_course_college_code=test_college,
-                              transfer_course_state_code=test_state)
+                              transfer_course_location_code=test_location)
 
     def tearDown(self):
         for model in self.required_models:
@@ -157,16 +159,16 @@ class CourseTest(TestCase):
         self.model.objects.all().delete()
 
     def test_course_create(self):
-        test_state = State.objects.get(state_code='test_code123')
+        test_location = Location.objects.get(location_code='test_code123')
         test_college = College.objects.get(college_code='test_code123')
         test_mtu_course = MTUCourse.objects.get(mtu_course_id='TST1001')
 
         test_course = Course.objects.create(
-                                     transfer_course_credit=3.0,
-                                     transfer_course_number='TN301',
-                                     mtu_equiv=test_mtu_course,
-                                     transfer_course_college_code=test_college,
-                                     transfer_course_state_code=test_state)
+                                 transfer_course_credit=3.0,
+                                 transfer_course_number='TN301',
+                                 mtu_equiv=test_mtu_course,
+                                 transfer_course_college_code=test_college,
+                                 transfer_course_location_code=test_location)
 
         self.assertEqual(str(test_course), 'TN301')
         self.assertEqual(test_course.transfer_course_credit, 3.0)
