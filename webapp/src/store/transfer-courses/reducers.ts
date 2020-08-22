@@ -7,7 +7,7 @@ const initialState: TransferCoursesState = {
   error: null
 };
 
-export default (state = initialState, action: TransferCoursesActionTypes): TransferCoursesState => {
+const reducer = (state = initialState, action: TransferCoursesActionTypes): TransferCoursesState => {
   switch (action.type) {
     case GET_TRANSFER_COURSES_REQUEST:
       return {...state, loading: true};
@@ -31,3 +31,5 @@ export default (state = initialState, action: TransferCoursesActionTypes): Trans
       return state;
   }
 };
+
+export default reducer;

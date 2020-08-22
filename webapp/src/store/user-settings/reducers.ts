@@ -4,7 +4,7 @@ const initialState: UserSettingsState = {
   lightTheme: window.localStorage.getItem('theme') ? window.localStorage.getItem('theme') === 'light' : !window.matchMedia('(prefers-color-scheme: dark)').matches
 };
 
-export default (state = initialState, action: UserSettingsActionTypes) => {
+const reducer = (state = initialState, action: UserSettingsActionTypes) => {
   switch (action.type) {
     case TOGGLE_THEME:
       window.localStorage.setItem('theme', state.lightTheme ? 'dark' : 'light');
@@ -16,3 +16,5 @@ export default (state = initialState, action: UserSettingsActionTypes) => {
       return state;
   }
 };
+
+export default reducer;

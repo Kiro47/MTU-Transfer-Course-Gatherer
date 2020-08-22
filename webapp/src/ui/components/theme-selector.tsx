@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default () => {
+const ThemeSelector = () => {
   const dispatch = useDispatch();
   const isLightTheme = useSelector(hasLightTheme);
 
@@ -32,3 +32,5 @@ export default () => {
     </IconButton>
   );
 };
+
+export default ThemeSelector;
