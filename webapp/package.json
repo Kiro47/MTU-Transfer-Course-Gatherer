@@ -35,7 +35,8 @@
       "react/prop-types": "off",
       "@typescript-eslint/default-param-last": "off",
       "import/no-unassigned-import": "off",
-      "@typescript-eslint/prefer-readonly-parameter-types": "off"
+      "@typescript-eslint/prefer-readonly-parameter-types": "off",
+      "max-len": ["error", {"code": 100}]
     },
     "ignores": [
       "build"
