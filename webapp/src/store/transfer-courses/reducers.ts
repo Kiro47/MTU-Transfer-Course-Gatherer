@@ -1,4 +1,10 @@
-import {GET_TRANSFER_COURSES_REQUEST, GET_TRANSFER_COURSES_SUCCESS, GET_TRANSFER_COURSES_ERROR, TransferCoursesActionTypes, TransferCoursesState} from './types';
+import {
+  GET_TRANSFER_COURSES_REQUEST,
+  GET_TRANSFER_COURSES_SUCCESS,
+  GET_TRANSFER_COURSES_ERROR,
+  TransferCoursesActionTypes,
+  TransferCoursesState
+} from './types';
 
 const initialState: TransferCoursesState = {
   loading: false,
@@ -7,7 +13,10 @@ const initialState: TransferCoursesState = {
   error: null
 };
 
-const reducer = (state = initialState, action: TransferCoursesActionTypes): TransferCoursesState => {
+const reducer = (
+  state = initialState,
+  action: TransferCoursesActionTypes
+): TransferCoursesState => {
   switch (action.type) {
     case GET_TRANSFER_COURSES_REQUEST:
       return {...state, loading: true};

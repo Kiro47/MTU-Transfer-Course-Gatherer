@@ -23,7 +23,11 @@ const ThemeSelector = () => {
   const classes = useStyles();
 
   return (
-    <IconButton className={classes.fixedButton} color="primary" onClick={() => dispatch({type: TOGGLE_THEME})}>
+    <IconButton
+      className={classes.fixedButton}
+      color="primary"
+      onClick={() => dispatch({type: TOGGLE_THEME})}
+    >
       {isLightTheme ? (
         <Brightness7Icon/>
       ) : (

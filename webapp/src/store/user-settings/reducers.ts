@@ -1,7 +1,17 @@
 import {UserSettingsState, UserSettingsActionTypes, TOGGLE_THEME} from './types';
 
+const isInitialThemeLight = () => {
+  const storedTheme = window.localStorage.getItem('theme');
+
+  if (storedTheme === 'light') {
+    return true;
+  }
+
+  return !window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+
 const initialState: UserSettingsState = {
-  lightTheme: window.localStorage.getItem('theme') ? window.localStorage.getItem('theme') === 'light' : !window.matchMedia('(prefers-color-scheme: dark)').matches
+  lightTheme: isInitialThemeLight()
 };
 
 const reducer = (state = initialState, action: UserSettingsActionTypes) => {

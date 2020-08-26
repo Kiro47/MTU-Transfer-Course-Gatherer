@@ -76,6 +76,7 @@ const Courses = () => {
                 </InputAdornment>
               ) : null
             }
+            // eslint-disable-next-line max-len
             placeholder="Start typing to filter by university name, course code, subject..." onChange={onQueryChange}/>
         </Box>
       </Paper>
