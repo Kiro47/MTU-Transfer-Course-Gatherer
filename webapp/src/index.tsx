@@ -6,15 +6,15 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import 'typeface-roboto';
-
-import configureStore from './configure-store';
+import configureStore from './store/configure-store';
+import {hasLightTheme} from './store/selectors';
 import Page from './ui/page';
 import ThemeSelector from './ui/components/theme-selector';
 
 const store = configureStore();
 
 const App = () => {
-  const isLightTheme = useSelector(state => state.userSettings.lightTheme);
+  const isLightTheme = useSelector(hasLightTheme);
 
   const theme = React.useMemo(
     () =>

@@ -9,6 +9,7 @@ import {
   TableHead,
   TablePagination
 } from '@material-ui/core';
+import {APITransferCourse} from '../../lib/api-types';
 
 const columns = [
   {id: 'course_name', label: 'Course Name'},
@@ -19,7 +20,7 @@ const columns = [
   {id: 'transfer_college', label: 'College'}
 ];
 
-const CoursesList = ({data}) => {
+const CoursesList = ({data}: {data: APITransferCourse[]}) => {
   const [displayedData, setDisplayedData] = useState(data);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
@@ -55,7 +56,7 @@ const CoursesList = ({data}) => {
                 <TableCell>{row.course_subject}</TableCell>
                 <TableCell>{row.course_id}</TableCell>
                 <TableCell>{row.course_credits}</TableCell>
-                <TableCell>{row.transfer_state}</TableCell>
+                <TableCell>{row.transfer_location}</TableCell>
                 <TableCell>{row.transfer_college}</TableCell>
               </TableRow>
             ))}
@@ -70,7 +71,7 @@ const CoursesList = ({data}) => {
         count={data.length}
         page={page}
         onChangePage={(_, newPage) => setPage(newPage)}
-        onChangeRowsPerPage={event => setRowsPerPage(event.target.value)}
+        onChangeRowsPerPage={event => setRowsPerPage(Number.parseInt(event.target.value, 10))}
       />
     </Paper>
   );

@@ -26,7 +26,7 @@ build
 pyvenv.cfg
 venv
 bin/
-lib/
+/lib
 lib64
 .env.local
 

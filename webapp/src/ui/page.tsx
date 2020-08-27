@@ -11,7 +11,14 @@ const Page = () => (
       </Typography>
 
       <Typography gutterBottom variant="h4">
-        at <Link href="https://mtu.edu" target="_blank" rel="noopener noreferrer">Michigan Tech</Link>
+        at
+        <Link
+          href="https://mtu.edu"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Michigan Tech
+        </Link>
       </Typography>
     </Grid>
 
