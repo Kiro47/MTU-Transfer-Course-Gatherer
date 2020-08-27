@@ -21,6 +21,9 @@ ENV REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT
 # For public resources
 ENV PUBLIC_URL=/static
 
+# We use ESLint 7.x, CRA uses 6.x. Gives warning unless this is set.
+ENV SKIP_PREFLIGHT_CHECK=true
+
 RUN npm run build
 
 RUN mkdir -p /app/static/
