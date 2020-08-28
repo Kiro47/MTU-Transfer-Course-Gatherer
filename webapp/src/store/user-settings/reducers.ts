@@ -3,8 +3,8 @@ import {UserSettingsState, UserSettingsActionTypes, TOGGLE_THEME} from './types'
 const isInitialThemeLight = () => {
   const storedTheme = window.localStorage.getItem('theme');
 
-  if (storedTheme === 'light') {
-    return true;
+  if (storedTheme) {
+    return storedTheme === 'light';
   }
 
   return !window.matchMedia('(prefers-color-scheme: dark)').matches;
