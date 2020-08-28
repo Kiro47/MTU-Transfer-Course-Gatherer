@@ -9,7 +9,7 @@ WORKDIR /app/webapp
 # Install packages
 COPY webapp/package*.json ./
 
-RUN npm ci
+RUN npm ci --only=production
 
 # Copy source
 COPY webapp/src ./src
