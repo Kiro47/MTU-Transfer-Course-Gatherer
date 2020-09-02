@@ -4,7 +4,8 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {TOGGLE_THEME} from '../../action-types';
+import {TOGGLE_THEME} from '../../store/user-settings/types';
+import {hasLightTheme} from '../../store/selectors';
 
 const useStyles = makeStyles({
   fixedButton: {
@@ -15,14 +16,18 @@ const useStyles = makeStyles({
   }
 });
 
-export default () => {
+const ThemeSelector = () => {
   const dispatch = useDispatch();
-  const isLightTheme = useSelector(state => state.userSettings.lightTheme);
+  const isLightTheme = useSelector(hasLightTheme);
 
   const classes = useStyles();
 
   return (
-    <IconButton className={classes.fixedButton} color="primary" onClick={() => dispatch({type: TOGGLE_THEME})}>
+    <IconButton
+      className={classes.fixedButton}
+      color="primary"
+      onClick={() => dispatch({type: TOGGLE_THEME})}
+    >
       {isLightTheme ? (
         <Brightness7Icon/>
       ) : (
@@ -31,3 +36,5 @@ export default () => {
     </IconButton>
   );
 };
+
+export default ThemeSelector;

@@ -6,7 +6,9 @@ import ErrorIcon from '@material-ui/icons/Error';
 import {useDebounce} from 'use-debounce';
 import CoursesList from './components/courses-list';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCourses} from '../actions';
+import {getCourses} from '../store/transfer-courses/actions';
+import {transferCourses} from '../store/selectors';
+import {APITransferCourse} from '../lib/api-types';
 
 const useStyles = makeStyles(() => ({
   backdrop: {
@@ -24,8 +26,8 @@ const Courses = () => {
 
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebounce(query, 300, {maxWait: 2000});
-  const courses = useSelector(state => state.courses);
-  const [filteredCourses, setFilteredCourses] = useState([]);
+  const courses = useSelector(transferCourses);
+  const [filteredCourses, setFilteredCourses] = useState([] as APITransferCourse[]);
   const [isFiltering, setIsFiltering] = useState(false);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ const Courses = () => {
     }));
   }, [debouncedQuery, courses]);
 
-  const onQueryChange = event => {
+  const onQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
 
     setIsFiltering(true);
@@ -74,17 +76,18 @@ const Courses = () => {
                 </InputAdornment>
               ) : null
             }
+            // eslint-disable-next-line max-len
             placeholder="Start typing to filter by university name, course code, subject..." onChange={onQueryChange}/>
         </Box>
       </Paper>
 
       <Box mt={2} mb={2}>
-        Matched {filteredCourses.length} out of {courses.total ? courses.total : 0} results
+        Matched {filteredCourses.length} out of {courses.count ? courses.count : 0} results
       </Box>
 
       <CoursesList data={filteredCourses}/>
 
-      <Backdrop open={courses.loading === true || courses.error !== undefined} className={classes.backdrop}>
+      <Backdrop open={courses.loading || courses.error !== null} className={classes.backdrop}>
         {courses.error ? (
           <Paper>
             <Box p={4} textAlign="center">
