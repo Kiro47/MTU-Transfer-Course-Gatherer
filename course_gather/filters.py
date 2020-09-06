@@ -1,6 +1,6 @@
 from course_gather.models import (
     College,
-    Course,
+    TransferCourse,
     MTUCourse,
     Location
 )
@@ -36,7 +36,7 @@ class CourseFilter(filters.FilterSet):
                                     lookup_expr='icontains')
 
     class Meta:
-        model = Course
+        model = TransferCourse
         fields = ['transfer_course_credit', 'transfer_course_number',
                   'mtu_equiv', 'transfer_course_college_code',
                   'transfer_course_location_code']

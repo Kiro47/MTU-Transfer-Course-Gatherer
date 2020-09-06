@@ -48,7 +48,45 @@ class College(models.Model):
         db_table = 'colleges'
 
 
-class Course(models.Model):
+class ShellCourse(models.Model):
+    '''
+    Shell object of courses that is the intermediary between
+    Courses and MTUCourses
+    TransferCourse <=> Shell <=> MTUCourse
+
+    In order for this to work, a shell is going to have to related to many
+    Courses and only One MTUCourse
+    Example:
+    Cyber Sec (Two entries)
+
+    There's only one cyber sec at MTU
+    MTM<================>MTM
+    '''
+    shell_name = models.CharField(max_length=50,
+                                  unique=True,
+                                  null=False,
+                                  blank=False)
+    transfer_courses = models.ManyToManyField('TransferCourse',
+                                              related_name='transfer_course',
+                                              on_delete=models.CASCADE,
+                                              help_text='Transfer courses')
+
+    mtu_courses = models.ManyToManyField('MTUCourse',
+                                         related_name='mtu_course',
+                                         on_delete=models.CASCADE,
+                                         help_text='MTU Courses')
+
+    def __str__(self):
+        return self.shell_name
+
+    class Meta:
+        ordering = ['shell_name']
+        verbose_name = 'course_shell'
+        verbose_name_plural = 'course_shells'
+        db_table = 'course_shells'
+
+
+class TransferCourse(models.Model):
     '''
     The Transfer Course
     '''

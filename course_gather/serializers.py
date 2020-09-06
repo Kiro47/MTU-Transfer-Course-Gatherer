@@ -1,6 +1,6 @@
 from course_gather.models import (
     College,
-    Course,
+    TransferCourse,
     MTUCourse,
     Location
 )
@@ -28,7 +28,7 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CourseSerializer(serializers.ModelSerializer):
+class TransferCourseSerializer(serializers.ModelSerializer):
     course_id = serializers.CharField(source='mtu_equiv.mtu_course_id')
     course_name = serializers.CharField(source='mtu_equiv.mtu_course_name')
     course_subject = serializers.CharField(source='mtu_equiv.mtu_subject')
@@ -39,7 +39,7 @@ class CourseSerializer(serializers.ModelSerializer):
                         source='transfer_course_location_code.location_name')
 
     class Meta:
-        model = Course
+        model = TransferCourse
         fields = ['id', 'course_id', 'course_name', 'course_subject',
                   'course_credits', 'transfer_course_credit',
                   'transfer_course_number', 'transfer_college',
