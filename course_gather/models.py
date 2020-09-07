@@ -53,14 +53,6 @@ class ShellCourse(models.Model):
     Shell object of courses that is the intermediary between
     Courses and MTUCourses
     TransferCourse <=> Shell <=> MTUCourse
-
-    In order for this to work, a shell is going to have to related to many
-    Courses and only One MTUCourse
-    Example:
-    Cyber Sec (Two entries)
-
-    There's only one cyber sec at MTU
-    MTM<================>MTM
     '''
     shell_name = models.CharField(max_length=50,
                                   unique=True,
@@ -68,12 +60,10 @@ class ShellCourse(models.Model):
                                   blank=False)
     transfer_courses = models.ManyToManyField('TransferCourse',
                                               related_name='transfer_course',
-                                              on_delete=models.CASCADE,
                                               help_text='Transfer courses')
 
     mtu_courses = models.ManyToManyField('MTUCourse',
                                          related_name='mtu_course',
-                                         on_delete=models.CASCADE,
                                          help_text='MTU Courses')
 
     def __str__(self):
@@ -84,6 +74,25 @@ class ShellCourse(models.Model):
         verbose_name = 'course_shell'
         verbose_name_plural = 'course_shells'
         db_table = 'course_shells'
+
+
+class TagCourse(models.Model):
+    '''
+    Generic Tag model for holding class tags
+    '''
+    text = models.CharField(max_length=30,
+                            null=True,
+                            blank=True,
+                            help_text='The Tag text')
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        ordering = ['text']
+        verbose_name = 'course_tag'
+        verbose_name_plural = 'course_tags'
+        db_table = 'course_tags'
 
 
 class TransferCourse(models.Model):
@@ -139,7 +148,7 @@ class MTUCourse(models.Model):
                             max_length=3,
                             help_text='The section of the MTU course')
     mtu_course_campus = models.CharField(
-                            max_length=2,
+                            max_length=3,
                             default="1",
                             help_text='The campus code of the MTU course')
     mtu_course_credits = models.FloatField(
@@ -172,9 +181,14 @@ class MTUCourse(models.Model):
                             max_length=10,
                             help_text='The MTU building location code the \
                             class is located in')
-    mtu_course_fee = models.CharField(
-                            max_length=80,
-                            help_text='The fee associated with the course')
+    mtu_course_fee = models.DecimalField(max_digits=6,
+                                         decimal_places=2,
+                                         help_text='The fee cost(USD) \
+                                         of a course')
+    mtu_course_tags = models.ManyToManyField('TagCourse',
+                                             related_name='course_tags',
+                                             help_text='Tags that apply to \
+                                             the course')
 
     def __str__(self):
         return self.mtu_course_id

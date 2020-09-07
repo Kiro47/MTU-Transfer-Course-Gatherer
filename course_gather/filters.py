@@ -19,7 +19,7 @@ class CollegeFilter(filters.FilterSet):
                   'college_name']
 
 
-class CourseFilter(filters.FilterSet):
+class TransferCourseFilter(filters.FilterSet):
     transfer_course_credit = filters.NumberFilter(
                                         field_name='transfer_course_credit',
                                         lookup_expr='icontains')
