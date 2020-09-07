@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from course_gather.models import (
     College,
-    Course,
+    TransferCourse,
     MTUCourse,
     Location
 )
@@ -107,7 +107,7 @@ class Command(BaseCommand):
                 mtu_credits = float(entry['MTU_credits'])
             except ValueError:
                 mtu_credits = 0.0
-            Course.objects.update_or_create(
+            TransferCourse.objects.update_or_create(
                     transfer_course_location_code=Location.objects.get(
                                        location_code=transfer_location_code),
                     transfer_course_college_code=College.objects.get(

@@ -23,14 +23,14 @@ from rest_framework.routers import DefaultRouter
 
 from course_gather.viewsets import (
     CollegeViewSet,
-    CourseViewSet,
+    TransferCourseViewSet,
     MTUCourseViewSet,
     LocationViewSet
 )
 
 router = DefaultRouter()
 router.register(r'colleges', CollegeViewSet)
-router.register(r'courses', CourseViewSet)
+router.register(r'transfer-courses', TransferCourseViewSet)
 router.register(r'mtu-courses', MTUCourseViewSet)
 router.register(r'locations', LocationViewSet)
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from course_gather.models import (
     College,
-    Course,
+    TransferCourse,
     MTUCourse,
     Location
 )
@@ -128,8 +128,8 @@ class MTUCourseTest(TestCase):
         self.assertEqual(len(mtu_courses), 0)
 
 
-class CourseTest(TestCase):
-    model = Course
+class TransferCourseTest(TestCase):
+    model = TransferCourse
     required_models = [Location, MTUCourse, College]
 
     def setUp(self):
@@ -146,7 +146,7 @@ class CourseTest(TestCase):
         test_college = College.objects.get(college_code='test_code123')
         test_mtu_course = MTUCourse.objects.get(mtu_course_id='TST1001')
 
-        Course.objects.create(transfer_course_credit=1.0,
+        TransferCourse.objects.create(transfer_course_credit=1.0,
                               transfer_course_number='TN101',
                               mtu_equiv=test_mtu_course,
                               transfer_course_college_code=test_college,
@@ -163,7 +163,7 @@ class CourseTest(TestCase):
         test_college = College.objects.get(college_code='test_code123')
         test_mtu_course = MTUCourse.objects.get(mtu_course_id='TST1001')
 
-        test_course = Course.objects.create(
+        test_course = TransferCourse.objects.create(
                                  transfer_course_credit=3.0,
                                  transfer_course_number='TN301',
                                  mtu_equiv=test_mtu_course,
@@ -174,18 +174,18 @@ class CourseTest(TestCase):
         self.assertEqual(test_course.transfer_course_credit, 3.0)
 
     def test_course_read(self):
-        course = Course.objects.get(transfer_course_credit=1.0,
+        course = TransferCourse.objects.get(transfer_course_credit=1.0,
                                     transfer_course_number='TN101')
         self.assertEqual(course.transfer_course_number, 'TN101')
         self.assertEqual(course.transfer_course_credit, 1.0)
 
     def test_course_update(self):
-        Course.objects.filter(transfer_course_credit=1.0,
+        TransferCourse.objects.filter(transfer_course_credit=1.0,
                               transfer_course_number='TN101').update(
                               transfer_course_number='TN401',
                               transfer_course_credit=4.0)
 
-        course = Course.objects.get(transfer_course_credit=4.0,
+        course = TransferCourse.objects.get(transfer_course_credit=4.0,
                                     transfer_course_number='TN401')
         self.assertEqual(course.transfer_course_credit, 4.0)
         self.assertEqual(course.transfer_course_number, 'TN401')

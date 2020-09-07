@@ -1,20 +1,20 @@
 from course_gather.models import (
     College,
-    Course,
+    TransferCourse,
     MTUCourse,
     Location,
 )
 
 from course_gather.serializers import (
     CollegeSerializer,
-    CourseSerializer,
+    TransferCourseSerializer,
     MTUCourseSerializer,
     LocationSerializer
 )
 
 from course_gather.filters import (
     CollegeFilter,
-    CourseFilter,
+    TransferCourseFilter,
     MTUCourseFilter,
     LocationFilter
 )
@@ -37,13 +37,10 @@ class CollegeViewSet(ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
 
 
-class CourseViewSet(ReadOnlyModelViewSet):
-    serializer_class = CourseSerializer
-    queryset = Course.objects.all().select_related(
-                                           'mtu_equiv',
-                                           'transfer_course_college_code',
-                                           'transfer_course_location_code')
-    filterset_class = CourseFilter
+class TransferCourseViewSet(ReadOnlyModelViewSet):
+    serializer_class = TransferCourseSerializer
+    queryset = TransferCourse.objects.all()
+    filterset_class = TransferCourseFilter
     filter_backends = (filters.DjangoFilterBackend,)
 
 
