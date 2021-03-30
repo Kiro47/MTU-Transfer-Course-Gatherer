@@ -1,5 +1,5 @@
 BeautifulSoup4==4.9.1
-Django==3.0.7
+Django==3.0.12
 coverage==5.1
 django-cors-headers==3.3.0
 django-nose==1.4.6
